@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Presentation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="stage">
+
+  <!-- MENU -->
+  <div id="screen-menu" class="screen">
+    <div class="oval menu-oval"></div>
+
+    <div id="menu-titlebox">
+      <h1 id="menu-title"></h1>
+      <h2 id="menu-subtitle"></h2>
+    </div>
+
+    <div id="menu-buttons"></div>
+
+    <div id="menu-char" class="character">
+      <span class="placeholder-label">MENU CHARACTER</span>
+      <!-- secret button on the nose. Move/resize it in style.css (#nose) -->
+      <div id="nose"></div>
+    </div>
+  </div>
+
+  <!-- TOPIC PAGES (filled by script.js) -->
+  <div id="screen-topic" class="screen">
+    <div class="oval topic-oval">
+      <div id="scene"><span class="placeholder-label" id="scene-label"></span></div>
+    </div>
+    <div id="topic-title"></div>
+    <div id="topic-divider"></div>
+    <div id="topic-lines"></div>
+
+    <div id="topic-nav">
+      <button id="btn-prev">&lt; PREV</button>
+      <button id="btn-menu">MENU</button>
+      <button id="btn-next">NEXT &gt;</button>
+    </div>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div id="screen-end" class="screen">
+    <div id="end-title">CONCLUSION</div>
+    <div id="end-divider"></div>
+    <div id="end-body"></div>
+    <div id="end-nav"><button id="btn-end-menu">BACK TO MENU</button></div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
