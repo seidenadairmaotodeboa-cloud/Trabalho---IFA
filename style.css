@@ -21,7 +21,7 @@ html, body { width: 100%; height: 100%; background: #000; overflow: hidden; font
 .screen { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 .screen.active { opacity: 1; pointer-events: auto; }
 
-/* ============ KEYFRAMES ============ */
+/* ============ ANIMAÇÕES ============ */
 @keyframes ovalin  { from { transform: scale(.5) rotate(-8deg); opacity: 0; } }
 @keyframes charin  { from { transform: translateX(140px); opacity: 0; } }
 @keyframes bob     { 50% { transform: translateY(-10px); } }
@@ -35,7 +35,7 @@ html, body { width: 100%; height: 100%; background: #000; overflow: hidden; font
 @keyframes fadeup  { from { transform: translateY(24px); opacity: 0; } }
 @keyframes bandin  { from { transform: translateX(420px) skewX(-12deg); } }
 
-/* ============ SHARED ============ */
+/* ============ COMPARTILHADO ============ */
 .oval {
   position: absolute; border-radius: 50%; overflow: hidden;
   background: radial-gradient(circle at 35% 30%, #fff 0 50%, #d9f1ff 100%);
@@ -102,12 +102,15 @@ button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 
 
 body.debug 
-/* ============ TOPIC PAGE ============ */
-.topic-oval { left: 720px; top: -4px; width: 640px; height: 710px; }
+/* ============ PÁGINA DE CONTEÚDO ============ */
+.topic-oval { left: 722px; top: 0; width: 540px; height: 700px; }
 #scene {
   position: absolute; inset: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   background-position: center; animation: kb 16s ease-in-out infinite alternate;
 }
+
+/* fit:"contain": a imagem fica inteira, dentro da área segura do oval (nada é cortado) */
+#scene.safe { inset: 15%; border-radius: 0; animation: none; }
 
 #topic-title, #end-title {
   position: absolute; left: 44px; top: 30px; font-family: var(--head); font-size: 52px; line-height: 1.1;
@@ -138,9 +141,9 @@ body.debug
 .line.show { opacity: 1; transform: none; }
 
 #topic-nav { position: absolute; left: 44px; bottom: 22px; display: flex; gap: 12px; }
-#topic-tag { position: absolute; left: 410px; bottom: 28px; font-family: var(--head); font-size: 26px; letter-spacing: 2px; color: var(--blue); transform: skewX(-14deg); }
+#topic-tag { position: absolute; left: 500px; bottom: 28px; font-family: var(--head); font-size: 26px; letter-spacing: 2px; color: var(--blue); transform: skewX(-14deg); }
 
-/* ============ CONCLUSION ============ */
+/* ============ CONCLUSÃO ============ */
 #screen-end::before {
   content: ""; position: absolute; right: -120px; top: -20px; width: 300px; height: 760px; background: var(--red);
   box-shadow: -14px 0 0 #fff, -28px 0 0 var(--blue); transform: skewX(-12deg);
@@ -178,8 +181,8 @@ body.debug
 #menu-char.look #brow { transform: translateY(-7px); }              /* sobrancelha sobe quando olha um botão */
 #menu-char.annoyed #brow { transform: translateY(3px) rotate(-7deg); } /* franze quando mexem no nariz */
 
-/* botão secreto do nariz (em % da área do personagem). debug:true no script.js mostra a caixa vermelha */
-#nose { left: 22.5%; top: 61.7%; width: 5.6%; height: 7.5%; cursor: pointer; pointer-events: auto; }
+/* botão secreto do nariz (em % da área do personagem). debug: true no script.js mostra a caixa vermelha */
+#nose { left: 21.4%; top: 56.6%; width: 6%; height: 7%; cursor: pointer; pointer-events: auto; }
 body.debug #nose { outline: 2px dashed red; }
 
 /* céu rasgado atrás do personagem */
