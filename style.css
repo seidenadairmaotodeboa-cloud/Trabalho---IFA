@@ -1,257 +1,172 @@
-/* ============ BASIC SETUP ============ */
+/* ============ BASE ============ */
 :root {
-  --blue: #1ea7e8;
-  --red: #e02020;
-  --bg: #000;
-  --fg: #fff;
+  --blue: #1ea7e8; --deep: #0a5f8a; --red: #e02020;
+  --head: "Anton", Impact, "Arial Narrow", sans-serif;
+  --body: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --ease: cubic-bezier(.2, .9, .3, 1.2);
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; background: #000; overflow: hidden; font-family: var(--body); color: #fff; }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  background: #000;
-  overflow: hidden;
-  font-family: Arial, Helvetica, sans-serif;
-  color: var(--fg);
+#stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; background: #000; overflow: hidden; transform-origin: center; }
+/* fundo animado: bolinhas deslizando */
+#stage::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle, rgba(30,167,232,.28) 2px, transparent 3px) 0 0 / 30px 30px,
+              linear-gradient(115deg, #000 0, #06141d 60%, #000 100%);
+  animation: dots 6s linear infinite;
 }
+@keyframes dots { to { background-position: 30px 30px, 0 0; } }
 
-/* The stage is always 1280x720 and gets scaled to fit the window (see script.js) */
-#stage {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 1280px;
-  height: 720px;
-  background: var(--bg);
-  overflow: hidden;
-  transform-origin: center center;
-}
+.screen { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.screen.active { opacity: 1; pointer-events: auto; }
 
-.screen {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s;
-}
-.screen.active {
-  opacity: 1;
-  pointer-events: auto;
-}
+/* ============ KEYFRAMES ============ */
+@keyframes ovalin  { from { transform: scale(.5) rotate(-8deg); opacity: 0; } }
+@keyframes charin  { from { transform: translateX(140px); opacity: 0; } }
+@keyframes bob     { 50% { transform: translateY(-10px); } }
+@keyframes slidein { from { transform: translateX(-160px); opacity: 0; } }
+@keyframes dropin  { from { transform: translateY(-140px) skewX(-6deg); opacity: 0; } }
+@keyframes titlein { from { transform: translateX(-220px) skewX(-8deg); opacity: 0; } }
+@keyframes grow    { from { transform: scaleX(0); } }
+@keyframes vdraw   { from { transform: rotate(-5.8deg) scaleY(0); } to { transform: rotate(-5.8deg) scaleY(1); } }
+@keyframes kb      { to { transform: scale(1.06); } }
+@keyframes blink   { to { opacity: .3; } }
+@keyframes fadeup  { from { transform: translateY(24px); opacity: 0; } }
+@keyframes bandin  { from { transform: translateX(420px) skewX(-12deg); } }
 
 /* ============ SHARED ============ */
 .oval {
-  position: absolute;
-  background: #fff;
-  border-radius: 50%;
+  position: absolute; border-radius: 50%; overflow: hidden;
+  background: radial-gradient(circle at 35% 30%, #fff 0 50%, #d9f1ff 100%);
+  box-shadow: -16px 12px 0 var(--red), -32px 24px 0 var(--deep);
 }
+.screen.active .oval { animation: ovalin .8s var(--ease) backwards; }
 
-.placeholder-label {
-  color: #888;
-  font-size: 20px;
-}
+.placeholder-label { color: #7a8a95; font-size: 22px; font-weight: 700; text-align: center; padding: 0 30px; }
 
 .character {
-  position: absolute;
-  border: 2px dashed #888;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* tiny idle animation so you can see things move. Delete if you don't want it */
-  animation: bob 3s ease-in-out infinite;
+  position: absolute; border: 3px dashed rgba(0,0,0,.35); background: rgba(30,167,232,.08);
+  display: flex; align-items: center; justify-content: center;
 }
-@keyframes bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-8px); }
-}
+.screen.active .character { animation: charin .8s .35s backwards var(--ease), bob 3.2s 1.15s ease-in-out infinite; }
 
 button {
-  background: #000;
-  color: var(--blue);
-  border: 2px solid var(--blue);
-  padding: 8px 16px;
-  font-size: 16px;
-  cursor: pointer;
+  font-family: var(--head); font-size: 18px; letter-spacing: 1px;
+  background: #000; color: #fff; border: 3px solid var(--blue); padding: 8px 22px;
+  cursor: pointer; transform: skewX(-14deg); transition: .15s;
 }
-button:hover { background: var(--blue); color: #000; }
+button:hover { background: var(--red); border-color: #fff; transform: skewX(-14deg) translateY(-3px); box-shadow: 5px 5px 0 var(--blue); }
+button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 
 /* ============ MENU ============ */
-.menu-oval {
-  left: 180px;
-  top: -40px;
-  width: 1300px;
-  height: 780px;
-}
+.menu-oval { left: 180px; top: -40px; width: 1300px; height: 780px; }
 
 #menu-titlebox {
-  position: absolute;
-  left: 60px;
-  top: 20px;
-  width: 560px;
-  padding: 18px 20px;
-  border: 2px solid var(--blue);
-  background: #000;
+  position: absolute; left: 60px; top: 22px; width: 560px; padding: 16px 24px 14px;
+  background: #000; border: 3px solid var(--blue); box-shadow: 10px 10px 0 var(--red); transform: skewX(-6deg);
 }
-#menu-title    { font-size: 34px; color: var(--blue); }
-#menu-subtitle { font-size: 20px; color: var(--blue); font-weight: normal; }
+.screen.active #menu-titlebox { animation: dropin .6s var(--ease) backwards; }
+#menu-title    { font-family: var(--head); font-size: 36px; line-height: 1.1; letter-spacing: 1px; text-transform: uppercase; text-shadow: 3px 3px 0 var(--red); }
+#menu-subtitle { font-size: 22px; font-weight: 700; color: var(--blue); margin-top: 6px; }
+#menu-info     { font-size: 18px; color: #cfe; opacity: .85; margin-top: 4px; }
 
-.menu-item {
-  position: absolute;
-  width: 480px;
-  height: 70px;
-  cursor: pointer;
-}
-/* the slanted box */
+.menu-item { position: absolute; width: 520px; height: 72px; cursor: pointer; transition: transform .25s var(--ease); }
+.screen.active .menu-item { animation: slidein .6s var(--ease) backwards; }
+.screen.active .menu-item:nth-child(1) { animation-delay: .3s; }
+.screen.active .menu-item:nth-child(2) { animation-delay: .45s; }
+.screen.active .menu-item:nth-child(3) { animation-delay: .6s; }
 .menu-item .slant {
-  position: absolute;
-  left: 0; top: 0;
-  width: 340px;
-  height: 70px;
-  background: #000;
-  border: 2px solid var(--blue);
-  transform: skewX(-20deg);
+  position: absolute; left: 0; top: 0; width: 340px; height: 72px;
+  background: linear-gradient(90deg, #000, #0b3a52); border: 3px solid var(--blue);
+  box-shadow: 6px 6px 0 rgba(0,0,0,.6); transform: skewX(-20deg); transition: .2s;
 }
 .menu-item .num {
-  position: absolute;
-  left: 0; top: 0;
-  width: 340px;
-  height: 70px;
-  line-height: 70px;
-  text-align: center;
-  font-size: 40px;
-  color: var(--red);
+  position: absolute; left: 0; top: 0; width: 340px; height: 72px; line-height: 72px; text-align: center;
+  font-family: var(--head); font-size: 46px; color: var(--red); text-shadow: 2px 2px 0 #fff; transition: .2s;
 }
 .menu-item .label {
-  position: absolute;
-  left: 360px;
-  top: 0;
-  line-height: 70px;
-  font-size: 32px;
-  color: var(--blue);
-  background: #fff;
-  padding: 0 6px;
+  position: absolute; left: 362px; top: 0; line-height: 72px;
+  font-family: var(--head); font-size: 44px; letter-spacing: 1px; color: #000; transition: .25s;
 }
-.menu-item:hover .slant { background: var(--blue); }
-.menu-item.visited .num { color: #fff; }  /* visited topics turn white */
+.menu-item::before {
+  content: "▶"; position: absolute; left: -42px; top: 0; line-height: 72px; font-size: 28px; color: var(--red); opacity: 0; transition: .2s;
+}
+.menu-item:hover { transform: translateX(20px); }
+.menu-item:hover::before { opacity: 1; animation: blink .5s infinite alternate; }
+.menu-item:hover .slant { background: var(--red); border-color: #fff; box-shadow: 10px 10px 0 #000; }
+.menu-item:hover .num { color: #fff; text-shadow: 2px 2px 0 #000; }
+.menu-item:hover .label { color: var(--red); transform: translateX(8px); }
+.menu-item.visited .num { color: #fff; text-shadow: 2px 2px 0 var(--red); }
+.menu-item.visited .label::after { content: " ✔"; color: var(--red); }
 
-#menu-char {
-  left: 700px;
-  top: 60px;
-  width: 520px;
-  height: 640px;
-}
+#menu-char { left: 700px; top: 60px; width: 520px; height: 640px; }
 
-/* The secret nose button. Position is relative to #menu-char.
-   Set CONFIG.debug = true in script.js to see it (red dashed box). */
-#nose {
-  position: absolute;
-  left: 110px;
-  top: 295px;
-  width: 80px;
-  height: 60px;
-  cursor: pointer;
-  /* border-radius: 50%;  (uncomment for a round hit area) */
-}
+/* botão secreto do nariz (posição relativa a #menu-char). debug:true no script.js mostra a área */
+#nose { position: absolute; left: 110px; top: 295px; width: 80px; height: 60px; cursor: pointer; }
 body.debug #nose { outline: 2px dashed red; }
 
 /* ============ TOPIC PAGE ============ */
-.topic-oval {
-  left: 720px;
-  top: -4px;
-  width: 640px;
-  height: 710px;
-}
+.topic-oval { left: 720px; top: -4px; width: 640px; height: 710px; }
 #scene {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-size: cover;
-  background-position: center;
+  position: absolute; inset: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background-position: center; animation: kb 16s ease-in-out infinite alternate;
 }
 
-#topic-title {
-  position: absolute;
-  left: 40px;
-  top: 36px;
-  font-size: 46px;
-  color: var(--red);
+#topic-title, #end-title {
+  position: absolute; left: 44px; top: 30px; font-family: var(--head); font-size: 52px; line-height: 1.1;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--red); text-shadow: 3px 3px 0 #fff; transform: skewX(-8deg);
 }
-#topic-divider {
-  position: absolute;
-  left: 0; top: 130px;
-  width: 666px;
-  height: 4px;
-  background: #fff;
+.screen.active #topic-title, .screen.active #end-title { animation: titlein .6s var(--ease) backwards; }
+
+#topic-divider, #end-divider {
+  position: absolute; left: 0; top: 132px; width: 666px; height: 5px; background: #fff;
+  box-shadow: 0 6px 0 var(--red); transform-origin: left;
 }
-#topic-lines {
-  position: absolute;
-  left: 40px;
-  top: 170px;
-  width: 590px;
+#end-divider { width: 1000px; }
+.screen.active #topic-divider, .screen.active #end-divider { animation: grow .6s .1s backwards ease-out; }
+
+/* linha vertical inclinada */
+#topic-vline {
+  position: absolute; left: 686px; top: -40px; width: 4px; height: 800px; background: #fff;
+  box-shadow: 6px 0 0 var(--red); transform: rotate(-5.8deg); transform-origin: top center;
 }
+.screen.active #topic-vline { animation: vdraw .7s .15s backwards ease-out; }
+
+#topic-lines { position: absolute; left: 44px; top: 168px; width: 590px; }
 .line {
-  font-size: 26px;
-  line-height: 1.25;
-  color: var(--blue);
-  margin-bottom: 18px;
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: opacity 0.4s, transform 0.4s;
+  font-weight: 700; font-size: 27px; line-height: 1.15; color: #fff; margin-bottom: 12px; padding: 5px 10px 5px 22px;
+  background: linear-gradient(90deg, rgba(30,167,232,.28), rgba(0,0,0,0)); border-left: 6px solid var(--red);
+  opacity: 0; transform: translateX(-60px); transition: opacity .35s, transform .5s var(--ease);
 }
-.line.show {
-  opacity: 1;
-  transform: translateX(0);
-}
+.line.show { opacity: 1; transform: none; }
 
-#topic-nav {
-  position: absolute;
-  left: 40px;
-  bottom: 20px;
-  display: flex;
-  gap: 10px;
-}
+#topic-nav { position: absolute; left: 44px; bottom: 22px; display: flex; gap: 12px; }
+#topic-tag { position: absolute; left: 410px; bottom: 28px; font-family: var(--head); font-size: 26px; letter-spacing: 2px; color: var(--blue); transform: skewX(-14deg); }
 
 /* ============ CONCLUSION ============ */
-#end-title {
-  position: absolute;
-  left: 40px;
-  top: 20px;
-  font-size: 64px;
-  color: var(--red);
+#screen-end::before {
+  content: ""; position: absolute; right: -120px; top: -20px; width: 300px; height: 760px; background: var(--red);
+  box-shadow: -14px 0 0 #fff, -28px 0 0 var(--blue); transform: skewX(-12deg);
 }
-#end-divider {
-  position: absolute;
-  left: 0; top: 130px;
-  width: 1280px;
-  height: 4px;
-  background: #fff;
-}
-#end-body {
-  position: absolute;
-  left: 40px;
-  top: 160px;
-  width: 1200px;
-  font-size: 26px;
-  line-height: 1.4;
-}
-#end-body h3 { color: var(--blue); font-size: 30px; margin-top: 18px; }
-#end-body p  { margin-bottom: 6px; }
-#end-nav { position: absolute; left: 40px; bottom: 20px; }
+#screen-end.active::before { animation: bandin .7s var(--ease) backwards; }
+#end-body { position: absolute; left: 44px; top: 165px; width: 900px; font-size: 28px; line-height: 1.2; }
+#end-body h3 { font-family: var(--head); font-weight: normal; font-size: 30px; letter-spacing: 1px; color: var(--blue); margin-top: 14px; }
+#end-body p { font-weight: 600; }
+.screen.active #end-body > * { animation: fadeup .5s var(--ease) backwards; }
+.screen.active #end-body > *:nth-child(-n+2) { animation-delay: .4s; }
+.screen.active #end-body > *:nth-child(n+3):nth-child(-n+4) { animation-delay: .7s; }
+.screen.active #end-body > *:nth-child(n+5):nth-child(-n+6) { animation-delay: 1s; }
+.screen.active #end-body > *:nth-child(n+7) { animation-delay: 1.3s; }
+#end-nav { position: absolute; left: 44px; bottom: 22px; }
 
-#menu-info { font-size: 16px; color: #fff; margin-top: 8px; }
-
-/* linha vertical inclinada (entre o texto e o oval) */
-#topic-vline {
-  position: absolute;
-  left: 686px;
-  top: -40px;
-  width: 4px;
-  height: 800px;
-  background: #fff;
-  transform: rotate(-5.8deg);
-}
+/* ============ TRANSIÇÃO (cortina inclinada) ============ */
+#wipe { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+#wipe div { position: absolute; top: -10%; left: 0; width: 135%; height: 120%; transform: translateX(-140%) skewX(-20deg); }
+#wipe .w1 { background: var(--red); }
+#wipe .w2 { background: #fff; }
+#wipe .w3 { background: #000; }
+#wipe.in div  { transform: translateX(-10%) skewX(-20deg); transition: transform .28s cubic-bezier(.7, 0, .3, 1); }
+#wipe.out div { transform: translateX(140%) skewX(-20deg); transition: transform .3s cubic-bezier(.7, 0, .3, 1); }
+#wipe.in .w2, #wipe.out .w2 { transition-delay: .05s; }
+#wipe.in .w3, #wipe.out .w3 { transition-delay: .1s; }
