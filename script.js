@@ -176,6 +176,7 @@ function openTopic(topicIdx, pageIdx, revealAll = false) {
   $("topic-title").textContent = page.title;
 
   setScene(page);
+  $("topic-tag").textContent = `${TOPICS[topicIdx].code}  ${pageIdx + 1}/${TOPICS[topicIdx].pages.length}`;
 
   const lines = $("topic-lines");
   lines.innerHTML = "";
@@ -262,6 +263,26 @@ function goEnd() {
   });
   body.innerHTML += `<h3>Conclusão integrada</h3><p>${END_FINAL}</p>`;
   showScreen("end");
+}
+
+/* ---- transição: cortina inclinada entre telas/páginas ---- */
+let busy = false;
+function withWipe(fn) {
+  if (busy) return;
+  busy = true;
+  const w = $("wipe");
+  w.className = "in";
+  setTimeout(() => {
+    fn();
+    w.className = "out";
+    setTimeout(() => { w.className = ""; busy = false; }, 420);
+  }, 380);
+}
+{
+  const _open = openTopic, _menu = goMenu, _end = goEnd;
+  openTopic = (...a) => withWipe(() => _open(...a));
+  goMenu = () => withWipe(() => _menu());
+  goEnd = () => withWipe(() => _end());
 }
 
 /* ---- events ---- */
