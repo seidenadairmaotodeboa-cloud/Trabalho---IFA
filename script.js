@@ -22,9 +22,12 @@ const NOVA   = box(15, 15, 16);    // nova embalagem (mesmo volume do cereal)
 /* Cada tópico = um botão do menu. Cada página = título + texto + (opcional) imagem no oval.
    text:  lista de parágrafos, todos aparecem de uma vez.
           Use **assim** para destacar em azul. Começar com "> " cria uma caixa de fórmula.
+   table: (opcional) tabela feita em HTML: { head: ["Col 1", "Col 2"], rows: [["a", "b"], ...] }
    image: arquivo dentro de assets/. Se não tiver imagem (ou o arquivo não existir), a página
           vira só texto, em largura total.
-   fit:   "contain" = imagem inteira, sem cortar (diagramas)  |  "cover" = preenche o oval (fotos) */
+   fit:   "cover" = preenche o oval (fotos)
+          "contain" = imagem inteira no oval todo (use em desenhos pensados para o oval; os cantos podem ser cortados)
+          "safe" = imagem inteira num retângulo menor, que nunca é cortado */
 const TOPICS = [
   {
     code: "GEO", name: "Geografia",
@@ -35,11 +38,17 @@ const TOPICS = [
         "A **altitude** muda tudo: o litoral é mais quente, enquanto a Serra passa de 1.000 m e fica bem mais fria.",
         "As **chuvas** são bem distribuídas ao longo do ano. Na Serra, as **geadas** são frequentes e a **neve** aparece de vez em quando, em cidades como São Joaquim e Urupema.",
       ]},
-      { title: "CULTIVOS POR REGIÃO", image: "assets/geo2_tabela.svg", fit: "contain", text: [
+      { title: "CULTIVOS POR REGIÃO", text: [
         "O clima de cada região define o que ela consegue plantar.",
-        "Na **Serra**, o frio favorece a **maçã**. No **Litoral e nos Vales**, o calor e a água permitem o **arroz** irrigado.",
-        "No **Oeste** predominam o **milho** e a **soja**, e no **Planalto Norte** se destaca o **fumo**.",
-      ]},
+      ], table: {
+        head: ["Região", "Cultivo", "Clima"],
+        rows: [
+          ["Serra", "Maçã", "Frio, com geadas"],
+          ["Litoral e Vales", "Arroz irrigado", "Quente e úmido"],
+          ["Oeste", "Milho e soja", "Chuvas regulares"],
+          ["Planalto Norte", "Fumo", "Ameno"],
+        ],
+      }},
     ],
   },
   {
@@ -208,9 +217,13 @@ function openTopic(topicIdx, pageIdx) {
   $("topic-title").textContent = page.title;
   $("topic-bigcode").textContent = topic.code;
   $("topic-tag").textContent = `${topic.code}  ${pageIdx + 1}/${topic.pages.length}`;
-  $("topic-body").innerHTML = page.text
-    .map((p) => (p.startsWith("> ") ? `<div class="formula">${md(p.slice(2))}</div>` : `<p>${md(p)}</p>`))
-    .join("");
+  const tabela = page.table
+    ? `<table class="tabela"><thead><tr>${page.table.head.map((t) => `<th>${t}</th>`).join("")}</tr></thead><tbody>` +
+      page.table.rows.map((r) => `<tr>${r.map((c) => `<td>${md(c)}</td>`).join("")}</tr>`).join("") +
+      `</tbody></table>`
+    : "";
+  $("topic-body").innerHTML =
+    page.text.map((p) => (p.startsWith("> ") ? `<div class="formula">${md(p.slice(2))}</div>` : `<p>${md(p)}</p>`)).join("") + tabela;
 
   setScene(page);
   showScreen("topic");
@@ -229,14 +242,14 @@ function setScene(page) {
   const token = ++sceneToken;
   note.textContent = "";
   scene.style.backgroundImage = "none";
-  scene.classList.toggle("safe", page.fit === "contain");
+  scene.classList.toggle("safe", page.fit === "safe");
   screen.classList.toggle("full", !page.image);
   if (!page.image) return;
   const img = new Image();
   img.onload = () => {
     if (token !== sceneToken) return;
     scene.style.backgroundImage = `url(${page.image})`;
-    scene.style.backgroundSize = page.fit || "cover";
+    scene.style.backgroundSize = page.fit === "safe" ? "contain" : (page.fit || "cover");
     scene.style.backgroundRepeat = "no-repeat";
   };
   img.onerror = () => {
