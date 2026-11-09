@@ -142,14 +142,6 @@ body.debug
   box-shadow: -14px 0 0 #fff, -28px 0 0 var(--blue); transform: skewX(-12deg);
 }
 #screen-end.active::before { animation: bandin .7s var(--ease) backwards; }
-#end-body { position: absolute; left: 44px; top: 165px; width: 900px; font-size: 28px; line-height: 1.2; }
-#end-body h3 { font-family: var(--head); font-weight: normal; font-size: 30px; letter-spacing: 1px; color: var(--blue); margin-top: 14px; }
-#end-body p { font-weight: 600; }
-.screen.active #end-body > * { animation: fadeup .5s var(--ease) backwards; }
-.screen.active #end-body > *:nth-child(-n+2) { animation-delay: .4s; }
-.screen.active #end-body > *:nth-child(n+3):nth-child(-n+4) { animation-delay: .7s; }
-.screen.active #end-body > *:nth-child(n+5):nth-child(-n+6) { animation-delay: 1s; }
-.screen.active #end-body > *:nth-child(n+7) { animation-delay: 1.3s; }
 #end-nav { position: absolute; left: 44px; bottom: 22px; }
 
 /* ============ TRANSIÇÃO (cortina inclinada) ============ */
@@ -232,3 +224,18 @@ body.debug #img-note { display: block; }
 }
 .tabela td { padding: 8px 18px; background: rgba(30,167,232,.18); }
 .tabela td:first-child { border-left: 6px solid var(--blue); font-weight: 700; color: #5cc8ff; }
+
+/* conclusão: um bloco de texto só, no mesmo estilo das páginas */
+#end-body {
+  position: absolute; left: 44px; top: 168px; width: 880px; padding: 14px 20px 2px 24px;
+  font-size: 32px; font-weight: 600; line-height: 1.3;
+  background: linear-gradient(90deg, rgba(30,167,232,.22), rgba(0,0,0,0)); border-left: 6px solid var(--red);
+}
+#end-body p { margin-bottom: 16px; }
+#end-body strong { color: #5cc8ff; font-weight: 700; }
+.screen.active #end-body { animation: fadeup .6s .25s backwards var(--ease); }
+
+/* várias fotos no oval: uma em cima da outra */
+#scene.multi { flex-direction: column; align-items: stretch; justify-content: stretch; animation: none; }
+#scene .pic { flex: 1; background-size: cover; background-position: center; }
+#scene .pic + .pic { border-top: 5px solid var(--red); }
