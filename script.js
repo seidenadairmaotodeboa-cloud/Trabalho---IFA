@@ -3,9 +3,9 @@
    ===================================================== */
 
 const CONFIG = {
-  title: "Geometria Espacial, Clima e Alimentação Saudável em SC",
-  subtitle: "Equipe 5 — Geografia, Biologia e Matemática",
-  info: "Derick Brum, Luiz Menjão, João Pedro  |  Projeto IFA",
+  title: "Prismas e Pirâmides: Área, Volume e Capacidade",
+  subtitle: "Embalagens de alimentos: capacidade e eficiência geométrica",
+  info: "Equipe 5: Derick Brum, Luiz Menjão, João Pedro",
 
   // true = mostra a área secreta do nariz (caixa vermelha tracejada). Coloque false antes de apresentar.
   debug: true,
@@ -20,56 +20,94 @@ const SUCO   = box(6, 9, 18.5);    // caixa de suco 6 x 9 x 18,5
 const NOVA   = box(15, 15, 16);    // nova embalagem (mesmo volume do cereal)
 
 /* Cada tópico = um botão do menu. Cada página = título + texto + (opcional) imagem no oval.
-   text:  lista de parágrafos, todos aparecem de uma vez.
-          Use **assim** para destacar em azul. Começar com "> " cria uma caixa de fórmula.
-   table: (opcional) tabela feita em HTML: { head: ["Col 1", "Col 2"], rows: [["a", "b"], ...] }
-   image: arquivo dentro de assets/. Se não tiver imagem (ou o arquivo não existir), a página
-          vira só texto, em largura total.
-   fit:   "cover" = preenche o oval (fotos)
-          "contain" = imagem inteira no oval todo (use em desenhos pensados para o oval; os cantos podem ser cortados)
-          "safe" = imagem inteira num retângulo menor, que nunca é cortado */
+   text:   lista de parágrafos, todos aparecem de uma vez.
+           Use **assim** para destacar em azul. Começar com "> " cria uma caixa de fórmula.
+   table:  (opcional) tabela feita em HTML: { head: ["Col 1", "Col 2"], rows: [["a", "b"], ...] }
+   image:  um arquivo dentro de assets/  |  images: duas ou mais fotos, uma em cima da outra no oval
+           Sem imagem (ou arquivo faltando), a página vira só texto, em largura total.
+   fit:    "cover" = preenche o oval (fotos)
+           "contain" = imagem inteira no oval todo (use em desenhos pensados para o oval; os cantos podem ser cortados)
+           "safe" = imagem inteira num retângulo menor, que nunca é cortado */
 const TOPICS = [
   {
     code: "GEO", name: "Geografia",
-    summary: "O clima subtropical de SC, com variação de altitude, define o que cada região consegue plantar.",
     pages: [
-      { title: "CLIMA DE SANTA CATARINA", image: "assets/geo1.jpg", fit: "cover", text: [
-        "Santa Catarina tem clima **subtropical** em quase todo o estado: verões quentes no litoral e invernos bem definidos.",
-        "A **altitude** muda tudo: o litoral é mais quente, enquanto a Serra passa de 1.000 m e fica bem mais fria.",
-        "As **chuvas** são bem distribuídas ao longo do ano. Na Serra, as **geadas** são frequentes e a **neve** aparece de vez em quando, em cidades como São Joaquim e Urupema.",
+      { title: "CLIMA DE SANTA CATARINA", images: ["assets/geo1_serra.jpg", "assets/geo1_litoral.jpg"], text: [
+        "O clima predominante é o **subtropical**: verões geralmente quentes, invernos frios (principalmente nas regiões serranas) e **chuvas distribuídas** durante o ano.",
+        "As temperaturas variam com a **altitude** e a localização: o **litoral** costuma ter invernos mais amenos, enquanto a **Serra Catarinense** tem as temperaturas mais baixas.",
+        "Nas áreas mais altas, como em São Joaquim e Urupema, há possibilidade de **geadas** e até de **neve**.",
       ]},
-      { title: "CULTIVOS POR REGIÃO", text: [
-        "O clima de cada região define o que ela consegue plantar.",
+      { title: "AGRICULTURA E PLANTIO", text: [
+        "A agricultura é muito importante para a economia catarinense. Entre os principais produtos cultivados estão:",
+        "**Milho:** usado na alimentação animal e na produção de alimentos.",
+        "**Soja:** usada na produção de óleo e de ração.",
+        "**Arroz:** cultivado principalmente em várzeas e terrenos irrigados.",
+        "**Maçã:** muito produzida na região de São Joaquim e Fraiburgo.",
+        "**Fumo:** importante em algumas regiões do estado.",
+        "**Feijão:** cultivado em diferentes municípios.",
+      ]},
+      { title: "AGRICULTURA EM CADA REGIÃO", text: [
+        "Cada região planta o que o seu clima e o seu solo favorecem.",
       ], table: {
-        head: ["Região", "Cultivo", "Clima"],
+        head: ["Região", "Principais cultivos"],
         rows: [
-          ["Serra", "Maçã", "Frio, com geadas"],
-          ["Litoral e Vales", "Arroz irrigado", "Quente e úmido"],
-          ["Oeste", "Milho e soja", "Chuvas regulares"],
-          ["Planalto Norte", "Fumo", "Ameno"],
+          ["Oeste", "Milho, soja e feijão"],
+          ["Meio-Oeste", "Maçã, milho e soja"],
+          ["Serra Catarinense", "Maçã, uva e hortaliças"],
+          ["Litoral", "Banana, arroz e mandioca"],
+          ["Vale do Itajaí", "Arroz, banana e hortaliças"],
+          ["Planalto Norte", "Fumo, milho e soja"],
         ],
       }},
+      { title: "O CLIMA E O PLANTIO", text: [
+        "O clima influencia diretamente o crescimento das plantas:",
+        "**Chuva:** fornece água para as plantações.",
+        "**Frio:** favorece algumas frutas, como a maçã.",
+        "**Calor:** favorece culturas adaptadas a temperaturas elevadas.",
+        "**Geadas:** podem prejudicar plantações mais sensíveis.",
+        "Por isso, a **Epagri**, empresa de pesquisa agropecuária de SC, usa estudos de clima e solo para orientar os agricultores sobre os melhores locais e períodos de plantio.",
+      ]},
+      { title: "SC EM DESTAQUE", text: [
+        "Santa Catarina tem grande destaque nacional na produção de **maçãs, cebolas, arroz e fumo**.",
+        "A agricultura também tem grande importância **econômica e social** para o estado.",
+        "**Resumindo:** o clima subtropical, com verões quentes e invernos frios, favorece o cultivo de diversos produtos, como milho, soja, arroz, maçã, banana e cebola.",
+      ]},
     ],
   },
   {
     code: "BIO", name: "Biologia",
-    summary: "Alimentos saudáveis fortalecem o corpo, e a embalagem certa protege nutrientes e evita desperdício.",
     pages: [
       { title: "ALIMENTAÇÃO SAUDÁVEL", text: [
-        "O que Santa Catarina produz chega à mesa e ajuda a montar uma dieta **variada e equilibrada**: frutas como a maçã, cereais como o arroz e o milho e leguminosas como a soja.",
-        "As frutas fornecem **fibras e vitaminas**, os cereais dão a **energia** para o corpo e a soja traz **proteínas**. Vitaminas e minerais ajudam a fortalecer a **imunidade**.",
-        "Alimentação equilibrada, junto com **atividade física** regular, melhora a disposição e a **qualidade de vida**.",
+        "O que Santa Catarina produz chega à mesa e ajuda a montar uma dieta **variada e equilibrada**: frutas como a maçã, cereais como o arroz e o milho e leguminosas como o feijão e a soja.",
+        "Esses alimentos fornecem **fibras e vitaminas**, a **energia** para o corpo e **proteínas**. Vitaminas e minerais ajudam a fortalecer a **imunidade**.",
+        "Comer bem é cuidar da **saúde** todos os dias, com variedade e sem exageros.",
+      ]},
+      { title: "NUTRIENTES E O CORPO", text: [
+        "Cada nutriente tem uma função, e os alimentos de Santa Catarina trazem vários deles:",
+      ], table: {
+        head: ["Nutriente", "Função no corpo", "Onde encontrar"],
+        rows: [
+          ["Carboidratos", "Dão energia", "Arroz, milho, mandioca"],
+          ["Proteínas", "Constroem tecidos", "Feijão, soja"],
+          ["Vitaminas e minerais", "Reforçam a imunidade", "Maçã, banana, hortaliças"],
+          ["Fibras", "Ajudam a digestão", "Maçã, feijão, hortaliças"],
+        ],
+      }},
+      { title: "ATIVIDADE FÍSICA E BEM-ESTAR", text: [
+        "A **atividade física** regular fortalece o **coração, os músculos e os ossos** e ajuda a melhorar o **sono** e o **humor**.",
+        "A **alimentação equilibrada** dá ao corpo a energia para se movimentar e os nutrientes para se recuperar. Beber **água** também faz parte.",
+        "Juntas, alimentação e atividade física promovem **saúde, disposição e bem-estar**: a **qualidade de vida**.",
       ]},
       { title: "SEGURANÇA ALIMENTAR", text: [
         "Depois de colhido, o alimento precisa **chegar bom** ao consumidor. É aí que a embalagem entra.",
         "Ela **protege os nutrientes** da luz, do ar e da umidade e **impede a contaminação** por bactérias e fungos.",
-        "Com isso, o alimento dura mais, o **desperdício diminui** e o rótulo ainda informa os ingredientes e a validade.",
+        "Com a **conservação** correta, o alimento dura mais, o **desperdício diminui** e o rótulo ainda informa os ingredientes e a validade.",
+        "Uma boa embalagem protege o alimento **e** gasta pouco material: é isso que a Matemática vai calcular.",
       ]},
     ],
   },
   {
     code: "MAT", name: "Matemática",
-    summary: "Volume e área de superfície mostram como criar embalagens que gastam menos material.",
     pages: [
       { title: "PRISMAS E PIRÂMIDES", image: "assets/mat1_solidos.svg", fit: "contain", text: [
         "O **prisma** tem duas bases paralelas e iguais; as faces laterais são paralelogramos (retângulos, no prisma reto).",
@@ -82,6 +120,13 @@ const TOPICS = [
         "> Pirâmide:  V = (Ab × h) / 3",
         "Ou seja, uma pirâmide ocupa **1/3** do volume de um prisma com a mesma base e a mesma altura.",
         "Capacidade: **1 L = 1 dm³ = 1000 cm³**.",
+      ]},
+      { title: "EXEMPLO RESOLVIDO", text: [
+        "Um prisma e uma pirâmide com a mesma base quadrada de **4 cm × 4 cm** e a mesma altura de **6 cm**.",
+        "Área da base: Ab = 4 × 4 = **16 cm²**",
+        "> Prisma:  V = 16 × 6 = 96 cm³",
+        "> Pirâmide:  V = (16 × 6) / 3 = 32 cm³",
+        "A pirâmide tem **1/3** do volume do prisma (96 ÷ 3 = 32). Em capacidade: 96 cm³ = **0,096 L** e 32 cm³ = **0,032 L**.",
       ]},
       { title: "EMBALAGENS REAIS", image: "assets/mat3_embalagens.jpg", fit: "cover", text: [
         "Duas embalagens de alimentos, ambas **prismas retangulares**:",
@@ -99,8 +144,13 @@ const TOPICS = [
   },
 ];
 
-// Texto fixo no fim da conclusão (slide 10)
-const END_FINAL = "Clima favorável + alimentação saudável + geometria bem aplicada = produzir, conservar e consumir melhor.";
+// Conclusão (aparece ao clicar no nariz): um título e um texto só. Mesmas regras de formatação das páginas.
+const END_TEXT = [
+  "O **clima** de Santa Catarina, com variação de altitude, define o que cada região cultiva e coloca na mesa uma grande variedade de **alimentos saudáveis**.",
+  "Esses alimentos fortalecem o corpo e a qualidade de vida, mas só chegam bem ao consumidor quando estão **bem embalados**.",
+  "É aí que entra a **Matemática**: com volume e área de superfície, dá para guardar a **mesma quantidade** de alimento usando **menos material**.",
+  "> Produzir, conservar e consumir melhor.",
+];
 
 /* =====================================================
    LÓGICA (não precisa mexer aqui para mudar o conteúdo)
@@ -205,6 +255,7 @@ function replay(el) {            // reinicia a animação de entrada de um eleme
 }
 
 const md = (s) => s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+const blockHtml = (p) => (p.startsWith("> ") ? `<div class="formula">${md(p.slice(2))}</div>` : `<p>${md(p)}</p>`);
 
 function openTopic(topicIdx, pageIdx) {
   state.topic = topicIdx;
@@ -240,38 +291,48 @@ function setScene(page) {
   const scene = $("scene");
   const note = $("img-note");
   const token = ++sceneToken;
+  const list = page.images || (page.image ? [page.image] : []);
   note.textContent = "";
+  scene.innerHTML = "";
   scene.style.backgroundImage = "none";
+  scene.classList.toggle("multi", list.length > 1);
   scene.classList.toggle("safe", page.fit === "safe");
-  screen.classList.toggle("full", !page.image);
-  if (!page.image) return;
-  const img = new Image();
-  img.onload = () => {
-    if (token !== sceneToken) return;
-    scene.style.backgroundImage = `url(${page.image})`;
-    scene.style.backgroundSize = page.fit === "safe" ? "contain" : (page.fit || "cover");
-    scene.style.backgroundRepeat = "no-repeat";
-  };
-  img.onerror = () => {
-    if (token !== sceneToken) return;
-    screen.classList.add("full");
-    note.textContent = "FALTA: " + page.image;   // só aparece com debug: true
-    fitText();
-  };
-  img.src = page.image;
+  screen.classList.toggle("full", list.length === 0);
+  list.forEach((src) => {
+    if (list.length > 1) {              // várias fotos: uma em cima da outra, dividindo o oval
+      const d = document.createElement("div");
+      d.className = "pic";
+      d.style.backgroundImage = `url(${src})`;
+      scene.appendChild(d);
+    }
+    const img = new Image();
+    img.onload = () => {
+      if (token !== sceneToken || list.length > 1) return;
+      scene.style.backgroundImage = `url(${src})`;
+      scene.style.backgroundSize = page.fit === "safe" ? "contain" : (page.fit || "cover");
+      scene.style.backgroundRepeat = "no-repeat";
+    };
+    img.onerror = () => {
+      if (token !== sceneToken) return;
+      screen.classList.add("full");
+      note.textContent += "FALTA: " + src + "  ";   // só aparece com debug: true
+      fitText();
+    };
+    img.src = src;
+  });
 }
 
-// diminui a fonte se o texto não couber na página
-function fitText() {
-  const body = $("topic-body");
-  const full = $("screen-topic").classList.contains("full");
-  const max = full ? 480 : 460;
-  let size = full ? 32 : 28;
-  body.style.fontSize = size + "px";
-  while (body.offsetHeight > max && size > 18) {
+// diminui a fonte se o texto não couber
+function fitBox(el, max, size) {
+  el.style.fontSize = size + "px";
+  while (el.offsetHeight > max && size > 18) {
     size -= 1;
-    body.style.fontSize = size + "px";
+    el.style.fontSize = size + "px";
   }
+}
+function fitText() {
+  const full = $("screen-topic").classList.contains("full");
+  fitBox($("topic-body"), full ? 480 : 460, full ? 32 : 28);
 }
 if (document.fonts) document.fonts.ready.then(() => { if (state.screen === "topic") fitText(); });
 
@@ -289,14 +350,9 @@ function prev() {
 
 /* ---- conclusão ---- */
 function goEnd() {
-  const body = $("end-body");
-  body.innerHTML = "";
-  const all = state.visited.size === 0;   // se nada foi visitado, mostra todos
-  TOPICS.forEach((t, i) => {
-    if (all || state.visited.has(i)) body.innerHTML += `<h3>${t.name}</h3><p>${t.summary}</p>`;
-  });
-  body.innerHTML += `<h3>Conclusão integrada</h3><p>${END_FINAL}</p>`;
+  $("end-body").innerHTML = END_TEXT.map(blockHtml).join("");
   showScreen("end");
+  fitBox($("end-body"), 480, 32);
 }
 
 /* ---- transição: cortina inclinada entre telas/páginas ---- */
