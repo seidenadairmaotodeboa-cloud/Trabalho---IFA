@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 710" font-family="Arial" font-size="17" fill="#111">
-<text x="320" y="200" font-size="22" font-weight="bold" text-anchor="middle">Agricultura de SC por região</text>
-<g stroke="#111" stroke-width="2" fill="none"><path d="M90 225 H550 M90 262 H550 M90 330 H550 M90 398 H550 M90 466 H550 M90 534 H550"/></g>
-<g font-weight="bold"><text x="100" y="250">Região</text><text x="250" y="250">Cultivo</text><text x="390" y="250">Clima</text></g>
-<text x="100" y="302">Serra</text><text x="250" y="302">Maçã</text><text x="390" y="302">Frio e geadas</text>
-<text x="100" y="360">Litoral e Vale</text><text x="250" y="360">Arroz</text><text x="390" y="360">Quente e úmido</text>
-<text x="100" y="428">Oeste</text><text x="250" y="428">Milho e soja</text><text x="390" y="428">Chuva regular</text>
-<text x="100" y="496">Planalto Norte</text><text x="250" y="496">Fumo</text><text x="390" y="496">Ameno</text>
-</svg>
