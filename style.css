@@ -103,13 +103,13 @@ button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 
 body.debug 
 /* ============ PÁGINA DE CONTEÚDO ============ */
-.topic-oval { left: 722px; top: 0; width: 540px; height: 700px; }
+.topic-oval { left: 710px; top: 0; width: 566px; height: 700px; }
 #scene {
   position: absolute; inset: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   background-position: center; animation: kb 16s ease-in-out infinite alternate;
 }
 
-/* fit:"contain": a imagem fica inteira, dentro da área segura do oval (nada é cortado) */
+/* fit:"safe": a imagem fica inteira, dentro do maior retângulo que cabe no oval (nada é cortado) */
 #scene.safe { inset: 15%; border-radius: 0; animation: none; }
 
 #topic-title, #end-title {
@@ -223,3 +223,12 @@ body.debug #nose { outline: 2px dashed red; }
 }
 #img-note { display: none; position: absolute; right: 12px; bottom: 8px; z-index: 5; font-size: 16px; color: var(--red); }
 body.debug #img-note { display: block; }
+
+/* tabela feita em HTML (propriedade table, no script.js) */
+.tabela { width: 100%; border-collapse: separate; border-spacing: 0 8px; margin: 4px 0 10px; }
+.tabela th {
+  font-family: var(--head); font-weight: normal; letter-spacing: 1px; text-align: left;
+  padding: 6px 18px; background: var(--red); color: #fff; font-size: .9em;
+}
+.tabela td { padding: 8px 18px; background: rgba(30,167,232,.18); }
+.tabela td:first-child { border-left: 6px solid var(--blue); font-weight: 700; color: #5cc8ff; }
