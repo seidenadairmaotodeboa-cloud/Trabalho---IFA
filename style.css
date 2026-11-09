@@ -100,12 +100,8 @@ button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 .menu-item.visited .num { color: #fff; text-shadow: 2px 2px 0 var(--red); }
 .menu-item.visited .label::after { content: " ✔"; color: var(--red); }
 
-#menu-char { left: 700px; top: 60px; width: 520px; height: 640px; }
 
-/* botão secreto do nariz (posição relativa a #menu-char). debug:true no script.js mostra a área */
-#nose { position: absolute; left: 110px; top: 295px; width: 80px; height: 60px; cursor: pointer; }
-body.debug #nose { outline: 2px dashed red; }
-
+body.debug 
 /* ============ TOPIC PAGE ============ */
 .topic-oval { left: 720px; top: -4px; width: 640px; height: 710px; }
 #scene {
@@ -170,3 +166,29 @@ body.debug #nose { outline: 2px dashed red; }
 #wipe.out div { transform: translateX(140%) skewX(-20deg); transition: transform .3s cubic-bezier(.7, 0, .3, 1); }
 #wipe.in .w2, #wipe.out .w2 { transition-delay: .05s; }
 #wipe.in .w3, #wipe.out .w3 { transition-delay: .1s; }
+
+/* ============ PERSONAGEM DO MENU (camadas) ============ */
+/* a área de 808x700 tem a proporção da tela de desenho (2153x1865); todas as camadas ocupam ela toda */
+#menu-char { position: absolute; left: 470px; top: 20px; width: 808px; height: 700px; transform-origin: 60% 100%; }
+.screen.active #menu-char { animation: charin .8s .35s backwards var(--ease), breathe 4.5s 1.2s ease-in-out infinite; }
+#menu-char > * { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+#eye-white { background: url(assets/menu_olho_fundo.png) 0 0 / 100% 100% no-repeat; }
+#iris { background: url(assets/menu_iris.png) 0 0 / 100% 100% no-repeat; transition: transform .2s ease-out; }
+#brow { transform-origin: 37% 47%; transition: transform .3s var(--ease); }
+#menu-char.look #brow { transform: translateY(-7px); }              /* sobrancelha sobe quando olha um botão */
+#menu-char.annoyed #brow { transform: translateY(3px) rotate(-7deg); } /* franze quando mexem no nariz */
+
+/* botão secreto do nariz (em % da área do personagem). debug:true no script.js mostra a caixa vermelha */
+#nose { left: 22.5%; top: 61.7%; width: 5.6%; height: 7.5%; cursor: pointer; pointer-events: auto; }
+body.debug #nose { outline: 2px dashed red; }
+
+/* céu rasgado atrás do personagem */
+#menu-sky {
+  position: absolute; left: 400px; top: -20px; width: 1000px; height: 729px;
+  background: url(assets/menu_ceu.png) 0 0 / 100% 100% no-repeat;
+}
+.screen.active #menu-sky { animation: skyin 1s .15s backwards var(--ease), drift 9s 1.2s ease-in-out infinite alternate; }
+
+@keyframes breathe { 50% { transform: scale(1.012); } }
+@keyframes skyin   { from { transform: scale(.4) rotate(-6deg); opacity: 0; } }
+@keyframes drift   { to { transform: translateX(18px); } }
