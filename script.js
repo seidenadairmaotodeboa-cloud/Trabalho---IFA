@@ -10,8 +10,6 @@ const CONFIG = {
   // true = mostra a área secreta do nariz (caixa vermelha tracejada). Coloque false antes de apresentar.
   debug: true,
 
-  // Imagem da personagem do menu (deixe "" para mostrar a caixa placeholder)
-  menuCharacterImage: "",
 };
 
 // ---- EXEMPLO: troque pelas medidas (cm) das embalagens reais de vocês ----
@@ -127,21 +125,46 @@ function showScreen(name) {
   }
 }
 
+/* ---- olho que segue o botão ----
+   Medidas em pixels da imagem original (2153 x 1865). Se mudar a arte, ajuste aqui. */
+const EYE = {
+  W: 2153,
+  rest: [742, 944],             // centro da íris como foi desenhada (posição de repouso)
+  center: [795, 951],           // centro da área onde a íris pode andar
+  range: [60, 21],              // quanto pode andar (x, y) a partir do centro
+  look: [796, 971],             // ponto do olho usado para calcular a direção do olhar
+};
+
+function lookAt(el) {
+  const char = $("menu-char");
+  const iris = $("iris");
+  if (!el) {
+    iris.style.transform = "translate(0px, 0px)";
+    char.classList.remove("look");
+    return;
+  }
+  const cr = char.getBoundingClientRect();
+  const k = cr.width / EYE.W;                         // pixels de tela por pixel da imagem
+  const ex = cr.left + EYE.look[0] * k;
+  const ey = cr.top + EYE.look[1] * k;
+  const br = el.getBoundingClientRect();
+  let dx = br.left + br.width / 2 - ex;
+  let dy = br.top + br.height / 2 - ey;
+  const d = Math.hypot(dx, dy) || 1;
+  dx /= d;
+  dy = Math.max(-1, Math.min(1, (dy / d) * 2.2));     // exagera o vertical (o olho é pequeno)
+  const tx = EYE.center[0] + dx * EYE.range[0];
+  const ty = EYE.center[1] + dy * EYE.range[1];
+  const lay = char.offsetWidth / EYE.W;               // pixels de layout por pixel da imagem
+  iris.style.transform = `translate(${(tx - EYE.rest[0]) * lay}px, ${(ty - EYE.rest[1]) * lay}px)`;
+  char.classList.add("look");
+}
+
 /* ---- menu ---- */
 function buildMenu() {
   $("menu-title").textContent = CONFIG.title;
   $("menu-subtitle").textContent = CONFIG.subtitle;
   $("menu-info").textContent = CONFIG.info;
-
-  if (CONFIG.menuCharacterImage) {
-    const c = $("menu-char");
-    c.style.backgroundImage = `url(${CONFIG.menuCharacterImage})`;
-    c.style.backgroundSize = "contain";
-    c.style.backgroundRepeat = "no-repeat";
-    c.style.backgroundPosition = "center";
-    c.style.border = "none";
-    c.querySelector(".placeholder-label").style.display = "none";
-  }
 
   const box = $("menu-buttons");
   box.innerHTML = "";
@@ -155,7 +178,10 @@ function buildMenu() {
       `<div class="slant"></div>` +
       `<div class="num">0${i + 1}</div>` +
       `<div class="label">${t.code}</div>`;
-    item.addEventListener("click", () => openTopic(i, 0));
+    const slant = item.querySelector(".slant");
+    item.addEventListener("mouseenter", () => lookAt(slant));
+    item.addEventListener("mouseleave", () => lookAt(null));
+    item.addEventListener("click", () => { lookAt(null); openTopic(i, 0); });
     box.appendChild(item);
   });
 }
@@ -291,6 +317,8 @@ $("btn-prev").addEventListener("click", prev);
 $("btn-menu").addEventListener("click", goMenu);
 $("btn-end-menu").addEventListener("click", goMenu);
 $("nose").addEventListener("click", goEnd);
+$("nose").addEventListener("mouseenter", () => $("menu-char").classList.add("annoyed"));
+$("nose").addEventListener("mouseleave", () => $("menu-char").classList.remove("annoyed"));
 
 // clicking anywhere on a topic page (not on a button) also advances
 $("screen-topic").addEventListener("click", (e) => {
