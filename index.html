@@ -16,6 +16,18 @@
   <div id="screen-menu" class="screen">
     <div class="oval menu-oval"></div>
 
+    <div id="menu-sky"></div>
+
+    <!-- personagem em camadas (todas do mesmo tamanho). Ordem = de trás para frente -->
+    <div id="menu-char">
+      <div id="eye-white"></div>
+      <div id="iris"></div>
+      <img id="body" src="assets/menu_corpo.png" alt="">
+      <img id="brow" src="assets/menu_sobrancelha.png" alt="">
+      <!-- botão secreto do nariz. Posição/tamanho em style.css (#nose) -->
+      <div id="nose"></div>
+    </div>
+
     <div id="menu-titlebox">
       <h1 id="menu-title"></h1>
       <h2 id="menu-subtitle"></h2>
@@ -23,12 +35,6 @@
     </div>
 
     <div id="menu-buttons"></div>
-
-    <div id="menu-char" class="character">
-      <span class="placeholder-label">MENU CHARACTER</span>
-      <!-- secret button on the nose. Move/resize it in style.css (#nose) -->
-      <div id="nose"></div>
-    </div>
   </div>
 
   <!-- TOPIC PAGES (filled by script.js) -->
