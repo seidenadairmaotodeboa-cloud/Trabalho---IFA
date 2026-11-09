@@ -96,7 +96,7 @@ const TOPICS = [
 const END_FINAL = "Clima favorável + alimentação saudável + geometria bem aplicada = produzir, conservar e consumir melhor.";
 
 /* =====================================================
-   LOGIC (you shouldn't need to touch this to change content)
+   LÓGICA (não precisa mexer aqui para mudar o conteúdo)
    ===================================================== */
 
 const $ = (id) => document.getElementById(id);
@@ -105,11 +105,11 @@ const state = {
   screen: "menu",     // "menu" | "topic" | "end"
   topic: 0,
   page: 0,
-  shown: 0,           // how many lines are revealed on the current page
-  visited: new Set(), // topic indexes that were opened
+  shown: 0,           // quantas linhas já apareceram na página atual
+  visited: new Set(), // tópicos que já foram abertos
 };
 
-/* ---- scale the 1280x720 stage to fit the window ---- */
+/* ---- ajusta o palco 1280x720 ao tamanho da janela ---- */
 function fit() {
   const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
   $("stage").style.transform = `translate(-50%, -50%) scale(${s})`;
@@ -117,7 +117,7 @@ function fit() {
 window.addEventListener("resize", fit);
 fit();
 
-/* ---- screens ---- */
+/* ---- telas ---- */
 function showScreen(name) {
   state.screen = name;
   for (const id of ["menu", "topic", "end"]) {
@@ -191,7 +191,7 @@ function goMenu() {
   showScreen("menu");
 }
 
-/* ---- topic pages ---- */
+/* ---- páginas de conteúdo ---- */
 function openTopic(topicIdx, pageIdx, revealAll = false) {
   state.topic = topicIdx;
   state.page = pageIdx;
@@ -224,6 +224,7 @@ function openTopic(topicIdx, pageIdx, revealAll = false) {
 let sceneToken = 0;
 function setScene(page) {
   const scene = $("scene");
+  scene.classList.toggle("safe", page.fit === "contain");
   const label = $("scene-label");
   const token = ++sceneToken;
   scene.style.backgroundImage = "none";
@@ -279,7 +280,7 @@ function prev() {
   }
 }
 
-/* ---- conclusion ---- */
+/* ---- conclusão ---- */
 function goEnd() {
   const body = $("end-body");
   body.innerHTML = "";
@@ -311,7 +312,7 @@ function withWipe(fn) {
   goEnd = () => withWipe(() => _end());
 }
 
-/* ---- events ---- */
+/* ---- eventos ---- */
 $("btn-next").addEventListener("click", next);
 $("btn-prev").addEventListener("click", prev);
 $("btn-menu").addEventListener("click", goMenu);
@@ -320,7 +321,7 @@ $("nose").addEventListener("click", goEnd);
 $("nose").addEventListener("mouseenter", () => $("menu-char").classList.add("annoyed"));
 $("nose").addEventListener("mouseleave", () => $("menu-char").classList.remove("annoyed"));
 
-// clicking anywhere on a topic page (not on a button) also advances
+// clicar em qualquer lugar da página (fora dos botões) também avança
 $("screen-topic").addEventListener("click", (e) => {
   if (!e.target.closest("button")) next();
 });
@@ -351,7 +352,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-/* ---- start ---- */
+/* ---- início ---- */
 if (CONFIG.debug) document.body.classList.add("debug");
 buildMenu();
 showScreen("menu");
