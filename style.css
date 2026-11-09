@@ -132,13 +132,6 @@ body.debug
 }
 .screen.active #topic-vline { animation: vdraw .7s .15s backwards ease-out; }
 
-#topic-lines { position: absolute; left: 44px; top: 168px; width: 590px; }
-.line {
-  font-weight: 700; font-size: 27px; line-height: 1.15; color: #fff; margin-bottom: 12px; padding: 5px 10px 5px 22px;
-  background: linear-gradient(90deg, rgba(30,167,232,.28), rgba(0,0,0,0)); border-left: 6px solid var(--red);
-  opacity: 0; transform: translateX(-60px); transition: opacity .35s, transform .5s var(--ease);
-}
-.line.show { opacity: 1; transform: none; }
 
 #topic-nav { position: absolute; left: 44px; bottom: 22px; display: flex; gap: 12px; }
 #topic-tag { position: absolute; left: 500px; bottom: 28px; font-family: var(--head); font-size: 26px; letter-spacing: 2px; color: var(--blue); transform: skewX(-14deg); }
@@ -195,3 +188,38 @@ body.debug #nose { outline: 2px dashed red; }
 @keyframes breathe { 50% { transform: scale(1.012); } }
 @keyframes skyin   { from { transform: scale(.4) rotate(-6deg); opacity: 0; } }
 @keyframes drift   { to { transform: translateX(18px); } }
+
+/* ============ TEXTO DA PÁGINA ============ */
+/* O texto aparece inteiro, de uma vez, como um bloco só.
+   **destaque** vira azul; parágrafo que começa com "> " vira caixa de fórmula. */
+#topic-body {
+  position: absolute; left: 44px; top: 168px; width: 600px; padding: 14px 20px 2px 24px;
+  font-size: 28px; font-weight: 600; line-height: 1.3;
+  background: linear-gradient(90deg, rgba(30,167,232,.22), rgba(0,0,0,0)); border-left: 6px solid var(--red);
+}
+#topic-body p { margin-bottom: 16px; }
+#topic-body strong { color: #5cc8ff; font-weight: 700; }
+.formula {
+  display: block; width: max-content; max-width: 100%; margin: 4px 0 18px; padding: 6px 22px;
+  font-family: var(--head); font-size: 1.2em; letter-spacing: 1px;
+  background: #000; border: 3px solid var(--blue); box-shadow: 6px 6px 0 var(--red); transform: skewX(-6deg);
+}
+.formula strong { color: #fff; }
+.screen.active #topic-body { animation: fadeup .6s .25s backwards var(--ease); }
+
+/* página só de texto (sem imagem): sem oval, texto mais largo, faixa vermelha com a sigla do tópico */
+#topic-band { display: none; }
+#screen-topic.full .oval, #screen-topic.full #topic-vline { display: none; }
+#screen-topic.full #topic-divider { width: 1000px; }
+#screen-topic.full #topic-body { width: 880px; font-size: 32px; }
+#screen-topic.full #topic-band {
+  display: block; position: absolute; right: -120px; top: -20px; width: 340px; height: 760px;
+  background: var(--red); box-shadow: -14px 0 0 #fff, -28px 0 0 var(--blue); transform: skewX(-12deg);
+}
+.screen.active #topic-band { animation: bandin .7s var(--ease) backwards; }
+#topic-bigcode {
+  position: absolute; left: 30px; top: 300px; font-family: var(--head); font-size: 96px; letter-spacing: 2px;
+  color: #fff; text-shadow: 5px 5px 0 #000; transform: skewX(12deg);
+}
+#img-note { display: none; position: absolute; right: 12px; bottom: 8px; z-index: 5; font-size: 16px; color: var(--red); }
+body.debug #img-note { display: block; }
