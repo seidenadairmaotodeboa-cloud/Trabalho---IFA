@@ -10,18 +10,17 @@ const CONFIG = {
   // true = mostra a área secreta do nariz (caixa vermelha tracejada). Coloque false antes de apresentar.
   debug: true,
 
-  // Tema inicial: "padrao", "suave", "neon", "sunset" ou "floresta". Durante a apresentação, a tecla T troca.
+  // Tema inicial (brilho/cor geral): "normal", "suave" ou "noite". Durante a apresentação, a tecla T troca.
   theme: "suave",
 
 };
 
-/* Temas: o nome aqui precisa existir como :root[data-theme="nome"] no style.css (é lá que ficam as cores). */
+/* Temas = filtros aplicados na tela inteira. Para criar outro, copie uma linha e mexa nos números:
+   brightness (brilho), saturate (intensidade das cores), sepia (tom quente, menos luz azul), hue-rotate (gira as cores). */
 const THEMES = {
-  padrao: "Padrão",
-  suave: "Suave",
-  neon: "Neon",
-  sunset: "Pôr do sol",
-  floresta: "Floresta",
+  normal: { nome: "Normal", filter: "none" },
+  suave:  { nome: "Suave",  filter: "brightness(.82) saturate(.88)" },
+  noite:  { nome: "Noite",  filter: "brightness(.62) saturate(.75) sepia(.22)" },
 };
 
 // ---- EXEMPLO: troque pelas medidas (cm) das embalagens reais de vocês ----
@@ -196,11 +195,11 @@ let toastTimer;
 function setTheme(name, aviso = true) {
   if (!THEMES[name]) name = "suave";
   state.theme = name;
-  document.documentElement.dataset.theme = name;
+  $("stage").style.filter = THEMES[name].filter;
   try { localStorage.setItem("tema", name); } catch (e) {}
   if (aviso) {
     const t = $("toast");
-    t.textContent = `Tema: ${THEMES[name]}  (T troca)`;
+    t.textContent = `Tema: ${THEMES[name].nome}  (T troca)`;
     t.classList.add("on");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => t.classList.remove("on"), 1500);
