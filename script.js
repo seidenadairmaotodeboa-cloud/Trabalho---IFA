@@ -434,9 +434,6 @@ const replayDemo = () => { if (state.screen === "topic" && $("scene").classList.
 /* ---- conclusão ---- */
 const SOURCES = [
   "**Clima e agricultura de SC:** ndmais.com.br",
-  "**Saúde e alimentação:** [preencher com a fonte usada em Biologia]",
-  "**Matemática:** cálculos feitos pela equipe. Medidas das embalagens: [preencher]",
-  "**Fotos:** [preencher com o autor e o site de cada foto]",
 ];
 
 let endView = "end";
