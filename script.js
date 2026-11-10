@@ -10,6 +10,17 @@ const CONFIG = {
   // true = mostra a área secreta do nariz (caixa vermelha tracejada). Coloque false antes de apresentar.
   debug: true,
 
+  // Tema inicial (brilho/cor geral): "normal", "suave" ou "noite". Durante a apresentação, a tecla T troca.
+  theme: "suave",
+
+};
+
+/* Temas = filtros aplicados na tela inteira. Para criar outro, copie uma linha e mexa nos números:
+   brightness (brilho), saturate (intensidade das cores), sepia (tom quente, menos luz azul), hue-rotate (gira as cores). */
+const THEMES = {
+  normal: { nome: "Normal", filter: "none" },
+  suave:  { nome: "Suave",  filter: "brightness(.82) saturate(.88)" },
+  noite:  { nome: "Noite",  filter: "brightness(.62) saturate(.75) sepia(.22)" },
 };
 
 // ---- EXEMPLO: troque pelas medidas (cm) das embalagens reais de vocês ----
@@ -178,6 +189,26 @@ function fit() {
 }
 window.addEventListener("resize", fit);
 fit();
+
+/* ---- tema (brilho e cor geral) ---- */
+let toastTimer;
+function setTheme(name, aviso = true) {
+  if (!THEMES[name]) name = "suave";
+  state.theme = name;
+  $("stage").style.filter = THEMES[name].filter;
+  try { localStorage.setItem("tema", name); } catch (e) {}
+  if (aviso) {
+    const t = $("toast");
+    t.textContent = `Tema: ${THEMES[name].nome}  (T troca)`;
+    t.classList.add("on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove("on"), 1500);
+  }
+}
+function nextTheme() {
+  const names = Object.keys(THEMES);
+  setTheme(names[(names.indexOf(state.theme) + 1) % names.length]);
+}
 
 /* ---- telas ---- */
 function showScreen(name) {
@@ -472,6 +503,10 @@ document.addEventListener("keydown", (e) => {
     case "ArrowLeft":
       prev();
       break;
+    case "t":
+    case "T":
+      nextTheme();
+      break;
     case "f":
     case "F":
       if (document.fullscreenElement) document.exitFullscreen();
@@ -509,5 +544,8 @@ document.addEventListener("mousemove", () => {
 
 /* ---- início ---- */
 if (CONFIG.debug) document.body.classList.add("debug");
+let savedTheme = null;
+try { savedTheme = localStorage.getItem("tema"); } catch (e) {}
+setTheme(savedTheme || CONFIG.theme, false);
 buildMenu();
 showScreen("menu");
