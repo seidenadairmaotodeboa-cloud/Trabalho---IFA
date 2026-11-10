@@ -1,7 +1,7 @@
 /* fontes locais (funcionam sem internet) */
-@font-face { font-family: "Anton"; font-weight: 400; src: url(assets/fonts/anton-latin-400-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url(assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url(assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: "Anton"; font-weight: 400; src: url(assets/anton-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url(assets/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url(assets/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
 
 /* ============ BASE ============ */
 :root {
