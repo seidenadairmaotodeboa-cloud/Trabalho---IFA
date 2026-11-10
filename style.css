@@ -5,23 +5,24 @@
 
 /* ============ BASE ============ */
 :root {
+  --blue: #1ea7e8; --deep: #0a5f8a; --red: #e02020;
   --ac: #1ea7e8; --ac-light: var(--ac-light); --ac-deep: #0a5f8a;   /* cor de destaque (muda por tópico) */
   --head: "Anton", Impact, "Arial Narrow", sans-serif;
   --body: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
   --ease: cubic-bezier(.2, .9, .3, 1.2);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; background: var(--bg); overflow: hidden; font-family: var(--body); color: var(--ink); }
+html, body { width: 100%; height: 100%; background: #000; overflow: hidden; font-family: var(--body); color: #fff; }
 
-#stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; background: var(--bg); overflow: hidden; transform-origin: center; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; background: #000; overflow: hidden; transform-origin: center; }
 /* fundo animado: bolinhas deslizando */
 #stage::before {
   content: ""; position: absolute; inset: 0;
-  background: var(--pattern), linear-gradient(115deg, var(--bg) 0, var(--bg2) 60%, var(--bg) 100%);
-  background-size: var(--pat-size), 100% 100%;
+  background: radial-gradient(circle, rgba(30,167,232,.28) 2px, transparent 3px) 0 0 / 30px 30px,
+              linear-gradient(115deg, #000 0, #06141d 60%, #000 100%);
   animation: dots 6s linear infinite;
 }
-@keyframes dots { to { background-position: var(--pat-size), 0 0; } }
+@keyframes dots { to { background-position: 30px 30px, 0 0; } }
 
 .screen { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
 .screen.active { opacity: 1; pointer-events: auto; }
@@ -43,7 +44,7 @@ html, body { width: 100%; height: 100%; background: var(--bg); overflow: hidden;
 /* ============ COMPARTILHADO ============ */
 .oval {
   position: absolute; border-radius: 50%; overflow: hidden;
-  background: radial-gradient(circle at 35% 30%, var(--oval1) 0 50%, var(--oval2) 100%);
+  background: radial-gradient(circle at 35% 30%, #fff 0 50%, #d9f1ff 100%);
   box-shadow: -16px 12px 0 var(--red), -32px 24px 0 var(--ac-deep);
 }
 .screen.active .oval { animation: ovalin .8s var(--ease) backwards; }
@@ -58,10 +59,10 @@ html, body { width: 100%; height: 100%; background: var(--bg); overflow: hidden;
 
 button {
   font-family: var(--head); font-size: 18px; letter-spacing: 1px;
-  background: var(--bg); color: var(--ink); border: 3px solid var(--ac); padding: 8px 22px;
+  background: #000; color: #fff; border: 3px solid var(--ac); padding: 8px 22px;
   cursor: pointer; transform: skewX(-14deg); transition: .15s;
 }
-button:hover { background: var(--red); border-color: var(--ink); transform: skewX(-14deg) translateY(-3px); box-shadow: 5px 5px 0 var(--ac); }
+button:hover { background: var(--red); border-color: #fff; transform: skewX(-14deg) translateY(-3px); box-shadow: 5px 5px 0 var(--ac); }
 button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 
 /* ============ MENU ============ */
@@ -69,12 +70,12 @@ button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 
 #menu-titlebox {
   position: absolute; left: 60px; top: 22px; width: 560px; padding: 16px 24px 14px;
-  background: var(--bg); border: 3px solid var(--ac); box-shadow: 10px 10px 0 var(--red); transform: skewX(-6deg);
+  background: #000; border: 3px solid var(--ac); box-shadow: 10px 10px 0 var(--red); transform: skewX(-6deg);
 }
 .screen.active #menu-titlebox { animation: dropin .6s var(--ease) backwards; }
 #menu-title    { font-family: var(--head); font-size: 36px; line-height: 1.1; letter-spacing: 1px; text-transform: uppercase; text-shadow: 3px 3px 0 var(--red); }
 #menu-subtitle { font-size: 22px; font-weight: 700; color: var(--ac); margin-top: 6px; }
-#menu-info     { font-size: 18px; color: var(--ink); opacity: .85; margin-top: 4px; }
+#menu-info     { font-size: 18px; color: #cfe; opacity: .85; margin-top: 4px; }
 
 .menu-item { position: absolute; width: 520px; height: 72px; cursor: pointer; transition: transform .25s var(--ease); }
 .screen.active .menu-item { animation: slidein .6s var(--ease) backwards; }
@@ -83,26 +84,26 @@ button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 .screen.active .menu-item:nth-child(3) { animation-delay: .6s; }
 .menu-item .slant {
   position: absolute; left: 0; top: 0; width: 340px; height: 72px;
-  background: linear-gradient(90deg, var(--bg), color-mix(in srgb, var(--ac) 30%, var(--bg))); border: 3px solid var(--ac);
+  background: linear-gradient(90deg, #000, color-mix(in srgb, var(--ac) 30%, #000)); border: 3px solid var(--ac);
   box-shadow: 6px 6px 0 rgba(0,0,0,.6); transform: skewX(-20deg); transition: .2s;
 }
 .menu-item .num {
   position: absolute; left: 0; top: 0; width: 340px; height: 72px; line-height: 72px; text-align: center;
-  font-family: var(--head); font-size: 46px; color: var(--red); text-shadow: 2px 2px 0 var(--ink); transition: .2s;
+  font-family: var(--head); font-size: 46px; color: var(--red); text-shadow: 2px 2px 0 #fff; transition: .2s;
 }
 .menu-item .label {
   position: absolute; left: 362px; top: 0; line-height: 72px;
-  font-family: var(--head); font-size: 44px; letter-spacing: 1px; color: var(--bg); transition: .25s;
+  font-family: var(--head); font-size: 44px; letter-spacing: 1px; color: #000; transition: .25s;
 }
 .menu-item::before {
   content: "▶"; position: absolute; left: -42px; top: 0; line-height: 72px; font-size: 28px; color: var(--red); opacity: 0; transition: .2s;
 }
 .menu-item:hover { transform: translateX(20px); }
 .menu-item:hover::before { opacity: 1; animation: blink .5s infinite alternate; }
-.menu-item:hover .slant { background: var(--red); border-color: var(--ink); box-shadow: 10px 10px 0 var(--bg); }
-.menu-item:hover .num { color: var(--ink); text-shadow: 2px 2px 0 var(--bg); }
+.menu-item:hover .slant { background: var(--red); border-color: #fff; box-shadow: 10px 10px 0 #000; }
+.menu-item:hover .num { color: #fff; text-shadow: 2px 2px 0 #000; }
 .menu-item:hover .label { color: var(--red); transform: translateX(8px); }
-.menu-item.visited .num { color: var(--ink); text-shadow: 2px 2px 0 var(--red); }
+.menu-item.visited .num { color: #fff; text-shadow: 2px 2px 0 var(--red); }
 .menu-item.visited .label::after { content: " ✔"; color: var(--red); }
 
 
@@ -119,12 +120,12 @@ body.debug
 
 #topic-title, #end-title {
   position: absolute; left: 44px; top: 30px; font-family: var(--head); font-size: 52px; line-height: 1.1;
-  letter-spacing: 1px; text-transform: uppercase; color: var(--red); text-shadow: 3px 3px 0 var(--ink); transform: skewX(-8deg);
+  letter-spacing: 1px; text-transform: uppercase; color: var(--red); text-shadow: 3px 3px 0 #fff; transform: skewX(-8deg);
 }
 .screen.active #topic-title, .screen.active #end-title { animation: titlein .6s var(--ease) backwards; }
 
 #topic-divider, #end-divider {
-  position: absolute; left: 0; top: 132px; width: 666px; height: 5px; background: var(--ink);
+  position: absolute; left: 0; top: 132px; width: 666px; height: 5px; background: #fff;
   box-shadow: 0 6px 0 var(--red); transform-origin: left;
 }
 #end-divider { width: 1000px; }
@@ -132,7 +133,7 @@ body.debug
 
 /* linha vertical inclinada */
 #topic-vline {
-  position: absolute; left: 686px; top: -40px; width: 4px; height: 800px; background: var(--ink);
+  position: absolute; left: 686px; top: -40px; width: 4px; height: 800px; background: #fff;
   box-shadow: 6px 0 0 var(--red); transform: rotate(-5.8deg); transform-origin: top center;
 }
 .screen.active #topic-vline { animation: vdraw .7s .15s backwards ease-out; }
@@ -144,7 +145,7 @@ body.debug
 /* ============ CONCLUSÃO ============ */
 #screen-end::before {
   content: ""; position: absolute; right: -120px; top: -20px; width: 300px; height: 760px; background: var(--red);
-  box-shadow: -14px 0 0 var(--ink), -28px 0 0 var(--ac); transform: skewX(-12deg);
+  box-shadow: -14px 0 0 #fff, -28px 0 0 var(--ac); transform: skewX(-12deg);
 }
 #screen-end.active::before { animation: bandin .7s var(--ease) backwards; }
 #end-nav { position: absolute; left: 44px; bottom: 22px; display: flex; gap: 12px; }
@@ -153,8 +154,8 @@ body.debug
 #wipe { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
 #wipe div { position: absolute; top: -10%; left: 0; width: 135%; height: 120%; transform: translateX(-140%) skewX(-20deg); }
 #wipe .w1 { background: var(--red); }
-#wipe .w2 { background: var(--ink); }
-#wipe .w3 { background: var(--bg); }
+#wipe .w2 { background: #fff; }
+#wipe .w3 { background: #000; }
 #wipe.in div  { transform: translateX(-10%) skewX(-20deg); transition: transform .28s cubic-bezier(.7, 0, .3, 1); }
 #wipe.out div { transform: translateX(140%) skewX(-20deg); transition: transform .3s cubic-bezier(.7, 0, .3, 1); }
 #wipe.in .w2, #wipe.out .w2 { transition-delay: .05s; }
@@ -199,9 +200,9 @@ body.debug #nose { outline: 2px dashed red; }
 .formula {
   display: block; width: max-content; max-width: 100%; margin: 4px 0 18px; padding: 6px 22px;
   font-family: var(--head); font-size: 1.2em; letter-spacing: 1px;
-  background: var(--bg); border: 3px solid var(--ac); box-shadow: 6px 6px 0 var(--red); transform: skewX(-6deg);
+  background: #000; border: 3px solid var(--ac); box-shadow: 6px 6px 0 var(--red); transform: skewX(-6deg);
 }
-.formula strong { color: var(--ink); }
+.formula strong { color: #fff; }
 .screen.active #topic-body { animation: fadeup .6s .25s backwards var(--ease); }
 
 /* página só de texto (sem imagem): sem oval, texto mais largo, faixa vermelha com a sigla do tópico */
@@ -211,12 +212,12 @@ body.debug #nose { outline: 2px dashed red; }
 #screen-topic.full #topic-body { width: 880px; font-size: 32px; }
 #screen-topic.full #topic-band {
   display: block; position: absolute; right: -120px; top: -20px; width: 340px; height: 760px;
-  background: var(--red); box-shadow: -14px 0 0 var(--ink), -28px 0 0 var(--ac); transform: skewX(-12deg);
+  background: var(--red); box-shadow: -14px 0 0 #fff, -28px 0 0 var(--ac); transform: skewX(-12deg);
 }
 .screen.active #topic-band { animation: bandin .7s var(--ease) backwards; }
 #topic-bigcode {
   position: absolute; left: 30px; top: 300px; font-family: var(--head); font-size: 96px; letter-spacing: 2px;
-  color: var(--ink); text-shadow: 5px 5px 0 var(--bg); transform: skewX(12deg);
+  color: #fff; text-shadow: 5px 5px 0 #000; transform: skewX(12deg);
 }
 #img-note { display: none; position: absolute; right: 12px; bottom: 8px; z-index: 5; font-size: 16px; color: var(--red); }
 body.debug #img-note { display: block; }
@@ -225,7 +226,7 @@ body.debug #img-note { display: block; }
 .tabela { width: 100%; border-collapse: separate; border-spacing: 0 8px; margin: 4px 0 10px; }
 .tabela th {
   font-family: var(--head); font-weight: normal; letter-spacing: 1px; text-align: left;
-  padding: 6px 18px; background: var(--red); color: var(--ink); font-size: .9em;
+  padding: 6px 18px; background: var(--red); color: #fff; font-size: .9em;
 }
 .tabela td { padding: 8px 18px; background: color-mix(in srgb, var(--ac) 18%, transparent); }
 .tabela td:first-child { border-left: 6px solid var(--ac); font-weight: 700; color: var(--ac-light); }
@@ -245,6 +246,9 @@ body.debug #img-note { display: block; }
 #scene .pic { flex: 1; background-size: cover; background-position: center; }
 #scene .pic + .pic { border-top: 5px solid var(--red); }
 
+/* cores por tópico: Geografia = azul (padrão), Biologia = verde, Matemática = amarelo */
+[data-topic="BIO"] { --ac: #2fbf71; --ac-light: #8be8b3; --ac-deep: #0b6b3a; }
+[data-topic="MAT"] { --ac: #f2b705; --ac-light: #ffd95e; --ac-deep: #8a6a00; }
 
 /* cursor some depois de alguns segundos parado */
 body.idle, body.idle * { cursor: none !important; }
@@ -255,56 +259,8 @@ body.idle, body.idle * { cursor: none !important; }
 
 /* aviso rápido ao trocar de tema (tecla T) */
 #toast {
-  position: absolute; right: 24px; top: 20px; z-index: 60; padding: 8px 16px; background: var(--bg);
+  position: absolute; right: 24px; top: 20px; z-index: 60; padding: 8px 16px; background: #000;
   border: 2px solid var(--ac); font-family: var(--head); font-size: 20px; letter-spacing: 1px;
   opacity: 0; transition: opacity .3s; pointer-events: none;
 }
 #toast.on { opacity: 1; }
-
-/* ============ TEMAS ============
-   Cada tema muda TUDO: fundo, padrão animado, texto, cor de contraste (--red), cores de cada tópico
-   (--geo, --bio, --mat) e as cores do oval. Para criar um tema novo: copie um bloco, troque o nome
-   em data-theme e as cores, e adicione o nome na lista THEMES do script.js. */
-:root, :root[data-theme="padrao"] {
-  --bg: #000; --bg2: #06141d; --ink: #fff; --red: #e02020;
-  --geo: #1ea7e8; --bio: #2fbf71; --mat: #f2b705;
-  --oval1: #fff; --oval2: #d9f1ff;
-  --dots: rgba(30,167,232,.28);
-  --pattern: radial-gradient(circle, var(--dots) 2px, transparent 3px); --pat-size: 30px 30px;
-}
-:root[data-theme="suave"] {
-  --bg: #0f1218; --bg2: #181d26; --ink: #e8e4da; --red: #c9573f;
-  --geo: #5b9fcc; --bio: #6fb48f; --mat: #d6ab4c;
-  --oval1: #ece7db; --oval2: #cfc8b9;
-  --dots: rgba(160,175,195,.14);
-}
-:root[data-theme="neon"] {
-  --bg: #06030f; --bg2: #170a33; --ink: #f5f0ff; --red: #ff2e93;
-  --geo: #00e5ff; --bio: #39ff88; --mat: #ffe600;
-  --oval1: #f3ecff; --oval2: #c9b8ff;
-  --dots: rgba(0,229,255,.2);
-  --pattern: linear-gradient(135deg, var(--dots) 25%, transparent 25% 50%, var(--dots) 50% 75%, transparent 75%); --pat-size: 48px 48px;
-}
-:root[data-theme="sunset"] {
-  --bg: #1a0b10; --bg2: #33121f; --ink: #fff2e6; --red: #ff5a3c;
-  --geo: #ff9f43; --bio: #a3d65c; --mat: #ff6b9a;
-  --oval1: #fff4e8; --oval2: #ffd3b0;
-  --dots: rgba(255,150,90,.2);
-}
-:root[data-theme="floresta"] {
-  --bg: #07120d; --bg2: #0e2218; --ink: #f1f5ec; --red: #d9822b;
-  --geo: #4cc3d9; --bio: #8fd14f; --mat: #f0c94a;
-  --oval1: #f2f6ea; --oval2: #cfe3c4;
-  --dots: rgba(143,209,79,.18);
-  --pattern: linear-gradient(135deg, var(--dots) 25%, transparent 25% 50%, var(--dots) 50% 75%, transparent 75%); --pat-size: 40px 40px;
-}
-
-/* cor de destaque de cada tópico (vem do tema) */
-:root, [data-topic] {
-  --ac-light: color-mix(in srgb, var(--ac) 60%, #fff);
-  --ac-deep: color-mix(in srgb, var(--ac) 45%, #000);
-}
-:root { --ac: var(--geo); }
-[data-topic="GEO"] { --ac: var(--geo); }
-[data-topic="BIO"] { --ac: var(--bio); }
-[data-topic="MAT"] { --ac: var(--mat); }
