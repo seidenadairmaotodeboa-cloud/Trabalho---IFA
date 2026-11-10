@@ -8,7 +8,7 @@ const CONFIG = {
   info: "Equipe 5: Derick Brum, Luiz Menjão, João Pedro",
 
   // true = mostra a área secreta do nariz (caixa vermelha tracejada). Coloque false antes de apresentar.
-  debug: true,
+  debug: false,
 
   // Tema inicial (brilho/cor geral): "normal", "suave" ou "noite". Durante a apresentação, a tecla T troca.
   theme: "suave",
@@ -223,7 +223,7 @@ function showScreen(name) {
 const EYE = {
   W: 2153,
   rest: [742, 944],             // centro da íris como foi desenhada (posição de repouso)
-  center: [795, 951],           // centro da área onde a íris pode andar
+  center: [795, 957],           // centro da área onde a íris pode andar
   range: [60, 21],              // quanto pode andar (x, y) a partir do centro
   look: [796, 971],             // ponto do olho usado para calcular a direção do olhar
 };
@@ -433,7 +433,7 @@ const replayDemo = () => { if (state.screen === "topic" && $("scene").classList.
 
 /* ---- conclusão ---- */
 const SOURCES = [
-  "**Clima e agricultura de SC:** Epagri/Ciram e IBGE. [conferir os links usados em Geografia]",
+  "**Clima e agricultura de SC:** ndmais.com.br",
   "**Saúde e alimentação:** [preencher com a fonte usada em Biologia]",
   "**Matemática:** cálculos feitos pela equipe. Medidas das embalagens: [preencher]",
   "**Fotos:** [preencher com o autor e o site de cada foto]",
