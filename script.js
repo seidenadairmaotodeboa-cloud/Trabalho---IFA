@@ -224,7 +224,7 @@ function showScreen(name) {
 const EYE = {
   W: 2153,
   rest: [742, 944],             // centro da íris como foi desenhada (posição de repouso)
-  center: [795, 951],           // centro da área onde a íris pode andar
+  center: [795, 957],           // centro da área onde a íris pode andar
   range: [60, 21],              // quanto pode andar (x, y) a partir do centro
   look: [796, 971],             // ponto do olho usado para calcular a direção do olhar
 };
