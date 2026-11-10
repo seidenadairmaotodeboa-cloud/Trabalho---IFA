@@ -121,6 +121,12 @@ const TOPICS = [
         "Ou seja, uma pirâmide ocupa **1/3** do volume de um prisma com a mesma base e a mesma altura.",
         "Capacidade: **1 L = 1 dm³ = 1000 cm³**.",
       ]},
+      { title: "O FATOR 1/3", demo: "pour", text: [
+        "Uma pirâmide e um prisma com a **mesma base** e a **mesma altura**.",
+        "Ao despejar a pirâmide cheia no prisma vazio, o nível sobe só **1/3**.",
+        "São necessárias **3 pirâmides** para encher o prisma:",
+        "> V = (Ab × h) / 3",
+      ]},
       { title: "EXEMPLO RESOLVIDO", text: [
         "Um prisma e uma pirâmide com a mesma base quadrada de **4 cm × 4 cm** e a mesma altura de **6 cm**.",
         "Área da base: Ab = 4 × 4 = **16 cm²**",
@@ -228,6 +234,7 @@ function buildMenu() {
     const item = document.createElement("div");
     item.className = "menu-item";
     item.id = "menu-item-" + i;
+    item.dataset.topic = t.code;
     item.style.left = 80 + i * 22 + "px";
     item.style.top = 280 + i * 120 + "px";
     item.innerHTML =
@@ -264,6 +271,7 @@ function openTopic(topicIdx, pageIdx) {
 
   const topic = TOPICS[topicIdx];
   const page = topic.pages[pageIdx];
+  $("screen-topic").dataset.topic = topic.code;
 
   $("topic-title").textContent = page.title;
   $("topic-bigcode").textContent = topic.code;
@@ -297,7 +305,9 @@ function setScene(page) {
   scene.style.backgroundImage = "none";
   scene.classList.toggle("multi", list.length > 1);
   scene.classList.toggle("safe", page.fit === "safe");
-  screen.classList.toggle("full", list.length === 0);
+  scene.classList.toggle("demo", !!page.demo);
+  screen.classList.toggle("full", list.length === 0 && !page.demo);
+  if (page.demo) { scene.innerHTML = DEMO_POUR; startDemo(token); return; }
   list.forEach((src) => {
     if (list.length > 1) {              // várias fotos: uma em cima da outra, dividindo o oval
       const d = document.createElement("div");
@@ -348,11 +358,69 @@ function prev() {
   else goMenu();
 }
 
+/* ---- demo: a pirâmide enche 1/3 do prisma (3 despejos enchem o prisma) ---- */
+const DEMO_POUR = `<svg viewBox="0 0 540 700" font-family="Arial" text-anchor="middle" fill="#111">
+<defs><clipPath id="dem-clip"><rect x="170" y="380" width="200" height="180"/></clipPath></defs>
+<text x="270" y="72" font-size="20">mesma base · mesma altura</text>
+<rect id="dem-water" x="170" y="380" width="200" height="180" fill="#4aa8f0" clip-path="url(#dem-clip)"
+  style="transform-box:fill-box;transform-origin:bottom;transform:scaleY(0);transition:transform .9s ease-in-out"/>
+<g stroke="#999" stroke-width="2" stroke-dasharray="5 5"><path d="M170 500 H370 M170 440 H370"/></g>
+<g font-size="18" fill="#777" text-anchor="start"><text x="378" y="505">1/3</text><text x="378" y="445">2/3</text><text x="378" y="385">3/3</text></g>
+<path d="M170 380 V560 H370 V380" fill="none" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
+<g id="dem-pyr" style="transform-box:fill-box;transform-origin:center;transition:transform .7s ease-in-out">
+<polygon id="dem-fill" points="170,290 370,290 270,110" fill="#4aa8f0" stroke="#111" stroke-width="4" stroke-linejoin="round" style="transition:fill-opacity .6s"/></g>
+<text id="dem-label" x="270" y="618" font-size="26" font-weight="bold"></text>
+</svg>`;
+
+function startDemo(token) {
+  const water = $("dem-water"), pyr = $("dem-pyr"), fill = $("dem-fill"), label = $("dem-label");
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  (async () => {
+    water.style.transform = "scaleY(0)";
+    pyr.style.transform = "";
+    fill.style.fillOpacity = 1;
+    label.textContent = "Pirâmide cheia → prisma vazio";
+    await wait(1300);
+    for (let k = 1; k <= 3; k++) {
+      if (token !== sceneToken) return;
+      pyr.style.transform = "translateY(170px) rotate(180deg)";
+      await wait(800);
+      if (token !== sceneToken) return;
+      water.style.transform = `scaleY(${k / 3})`;
+      fill.style.fillOpacity = 0.12;
+      label.textContent = `Despejo ${k}: ${k}/3 do prisma`;
+      await wait(1300);
+      pyr.style.transform = "";
+      await wait(700);
+      fill.style.fillOpacity = 1;
+      await wait(500);
+    }
+    if (token === sceneToken) label.textContent = "3 pirâmides enchem 1 prisma!";
+  })();
+}
+const replayDemo = () => { if (state.screen === "topic" && $("scene").classList.contains("demo")) startDemo(++sceneToken); };
+
 /* ---- conclusão ---- */
-function goEnd() {
-  $("end-body").innerHTML = END_TEXT.map(blockHtml).join("");
-  showScreen("end");
+const SOURCES = [
+  "**Clima e agricultura de SC:** Epagri/Ciram e IBGE. [conferir os links usados em Geografia]",
+  "**Saúde e alimentação:** [preencher com a fonte usada em Biologia]",
+  "**Matemática:** cálculos feitos pela equipe. Medidas das embalagens: [preencher]",
+  "**Fotos:** [preencher com o autor e o site de cada foto]",
+];
+
+let endView = "end";
+function showEnd(view) {
+  endView = view;
+  const src = view === "src";
+  $("end-title").textContent = src ? "FONTES" : "CONCLUSÃO";
+  $("end-body").innerHTML = (src ? SOURCES : END_TEXT).map(blockHtml).join("");
+  $("btn-end-src").textContent = src ? "CONCLUSÃO" : "FONTES";
   fitBox($("end-body"), 480, 32);
+  replay($("end-body"));
+}
+function goEnd() {
+  showScreen("end");
+  showEnd("end");
 }
 
 /* ---- transição: cortina inclinada entre telas/páginas ---- */
@@ -380,25 +448,38 @@ $("btn-next").addEventListener("click", next);
 $("btn-prev").addEventListener("click", prev);
 $("btn-menu").addEventListener("click", goMenu);
 $("btn-end-menu").addEventListener("click", goMenu);
+$("btn-end-src").addEventListener("click", () => showEnd(endView === "src" ? "end" : "src"));
+$("scene").addEventListener("click", replayDemo);
 $("nose").addEventListener("click", goEnd);
 $("nose").addEventListener("mouseenter", () => $("menu-char").classList.add("annoyed"));
 $("nose").addEventListener("mouseleave", () => $("menu-char").classList.remove("annoyed"));
 
 // clicar em qualquer lugar da página (fora dos botões) também avança
 $("screen-topic").addEventListener("click", (e) => {
-  if (!e.target.closest("button")) next();
+  if (!e.target.closest("button, #scene.demo")) next();
 });
 
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
+    case "PageDown":   // passador de slides
     case "ArrowRight":
     case " ":
     case "Enter":
       e.preventDefault();
       next();
       break;
+    case "PageUp":
     case "ArrowLeft":
       prev();
+      break;
+    case "f":
+    case "F":
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen();
+      break;
+    case "r":
+    case "R":
+      replayDemo();
       break;
     case "Escape":
       goMenu();
@@ -413,6 +494,17 @@ document.addEventListener("keydown", (e) => {
       if (state.screen === "menu") openTopic(Number(e.key) - 1, 0);
       break;
   }
+});
+
+/* ---- pré-carrega as imagens para nunca aparecerem atrasadas ---- */
+TOPICS.forEach((t) => t.pages.forEach((p) => (p.images || (p.image ? [p.image] : [])).forEach((s) => { new Image().src = s; })));
+
+/* ---- esconde o cursor depois de 3 s parado ---- */
+let idleTimer;
+document.addEventListener("mousemove", () => {
+  document.body.classList.remove("idle");
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(() => document.body.classList.add("idle"), 3000);
 });
 
 /* ---- início ---- */
