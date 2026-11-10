@@ -1,6 +1,12 @@
+/* fontes locais (funcionam sem internet) */
+@font-face { font-family: "Anton"; font-weight: 400; src: url(assets/anton-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url(assets/barlow-condensed-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url(assets/barlow-condensed-latin-700-normal.woff2) format("woff2"); }
+
 /* ============ BASE ============ */
 :root {
   --blue: #1ea7e8; --deep: #0a5f8a; --red: #e02020;
+  --ac: #1ea7e8; --ac-light: var(--ac-light); --ac-deep: #0a5f8a;   /* cor de destaque (muda por tópico) */
   --head: "Anton", Impact, "Arial Narrow", sans-serif;
   --body: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
   --ease: cubic-bezier(.2, .9, .3, 1.2);
@@ -39,7 +45,7 @@ html, body { width: 100%; height: 100%; background: #000; overflow: hidden; font
 .oval {
   position: absolute; border-radius: 50%; overflow: hidden;
   background: radial-gradient(circle at 35% 30%, #fff 0 50%, #d9f1ff 100%);
-  box-shadow: -16px 12px 0 var(--red), -32px 24px 0 var(--deep);
+  box-shadow: -16px 12px 0 var(--red), -32px 24px 0 var(--ac-deep);
 }
 .screen.active .oval { animation: ovalin .8s var(--ease) backwards; }
 
@@ -53,10 +59,10 @@ html, body { width: 100%; height: 100%; background: #000; overflow: hidden; font
 
 button {
   font-family: var(--head); font-size: 18px; letter-spacing: 1px;
-  background: #000; color: #fff; border: 3px solid var(--blue); padding: 8px 22px;
+  background: #000; color: #fff; border: 3px solid var(--ac); padding: 8px 22px;
   cursor: pointer; transform: skewX(-14deg); transition: .15s;
 }
-button:hover { background: var(--red); border-color: #fff; transform: skewX(-14deg) translateY(-3px); box-shadow: 5px 5px 0 var(--blue); }
+button:hover { background: var(--red); border-color: #fff; transform: skewX(-14deg) translateY(-3px); box-shadow: 5px 5px 0 var(--ac); }
 button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 
 /* ============ MENU ============ */
@@ -64,11 +70,11 @@ button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 
 #menu-titlebox {
   position: absolute; left: 60px; top: 22px; width: 560px; padding: 16px 24px 14px;
-  background: #000; border: 3px solid var(--blue); box-shadow: 10px 10px 0 var(--red); transform: skewX(-6deg);
+  background: #000; border: 3px solid var(--ac); box-shadow: 10px 10px 0 var(--red); transform: skewX(-6deg);
 }
 .screen.active #menu-titlebox { animation: dropin .6s var(--ease) backwards; }
 #menu-title    { font-family: var(--head); font-size: 36px; line-height: 1.1; letter-spacing: 1px; text-transform: uppercase; text-shadow: 3px 3px 0 var(--red); }
-#menu-subtitle { font-size: 22px; font-weight: 700; color: var(--blue); margin-top: 6px; }
+#menu-subtitle { font-size: 22px; font-weight: 700; color: var(--ac); margin-top: 6px; }
 #menu-info     { font-size: 18px; color: #cfe; opacity: .85; margin-top: 4px; }
 
 .menu-item { position: absolute; width: 520px; height: 72px; cursor: pointer; transition: transform .25s var(--ease); }
@@ -78,7 +84,7 @@ button:active { transform: skewX(-14deg) translateY(1px); box-shadow: none; }
 .screen.active .menu-item:nth-child(3) { animation-delay: .6s; }
 .menu-item .slant {
   position: absolute; left: 0; top: 0; width: 340px; height: 72px;
-  background: linear-gradient(90deg, #000, #0b3a52); border: 3px solid var(--blue);
+  background: linear-gradient(90deg, #000, color-mix(in srgb, var(--ac) 30%, #000)); border: 3px solid var(--ac);
   box-shadow: 6px 6px 0 rgba(0,0,0,.6); transform: skewX(-20deg); transition: .2s;
 }
 .menu-item .num {
@@ -134,15 +140,15 @@ body.debug
 
 
 #topic-nav { position: absolute; left: 44px; bottom: 22px; display: flex; gap: 12px; }
-#topic-tag { position: absolute; left: 500px; bottom: 28px; font-family: var(--head); font-size: 26px; letter-spacing: 2px; color: var(--blue); transform: skewX(-14deg); }
+#topic-tag { position: absolute; left: 500px; bottom: 28px; font-family: var(--head); font-size: 26px; letter-spacing: 2px; color: var(--ac); transform: skewX(-14deg); }
 
 /* ============ CONCLUSÃO ============ */
 #screen-end::before {
   content: ""; position: absolute; right: -120px; top: -20px; width: 300px; height: 760px; background: var(--red);
-  box-shadow: -14px 0 0 #fff, -28px 0 0 var(--blue); transform: skewX(-12deg);
+  box-shadow: -14px 0 0 #fff, -28px 0 0 var(--ac); transform: skewX(-12deg);
 }
 #screen-end.active::before { animation: bandin .7s var(--ease) backwards; }
-#end-nav { position: absolute; left: 44px; bottom: 22px; }
+#end-nav { position: absolute; left: 44px; bottom: 22px; display: flex; gap: 12px; }
 
 /* ============ TRANSIÇÃO (cortina inclinada) ============ */
 #wipe { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
@@ -187,14 +193,14 @@ body.debug #nose { outline: 2px dashed red; }
 #topic-body {
   position: absolute; left: 44px; top: 168px; width: 600px; padding: 14px 20px 2px 24px;
   font-size: 28px; font-weight: 600; line-height: 1.3;
-  background: linear-gradient(90deg, rgba(30,167,232,.22), rgba(0,0,0,0)); border-left: 6px solid var(--red);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--ac) 22%, transparent), rgba(0,0,0,0)); border-left: 6px solid var(--red);
 }
 #topic-body p { margin-bottom: 16px; }
-#topic-body strong { color: #5cc8ff; font-weight: 700; }
+#topic-body strong { color: var(--ac-light); font-weight: 700; }
 .formula {
   display: block; width: max-content; max-width: 100%; margin: 4px 0 18px; padding: 6px 22px;
   font-family: var(--head); font-size: 1.2em; letter-spacing: 1px;
-  background: #000; border: 3px solid var(--blue); box-shadow: 6px 6px 0 var(--red); transform: skewX(-6deg);
+  background: #000; border: 3px solid var(--ac); box-shadow: 6px 6px 0 var(--red); transform: skewX(-6deg);
 }
 .formula strong { color: #fff; }
 .screen.active #topic-body { animation: fadeup .6s .25s backwards var(--ease); }
@@ -206,7 +212,7 @@ body.debug #nose { outline: 2px dashed red; }
 #screen-topic.full #topic-body { width: 880px; font-size: 32px; }
 #screen-topic.full #topic-band {
   display: block; position: absolute; right: -120px; top: -20px; width: 340px; height: 760px;
-  background: var(--red); box-shadow: -14px 0 0 #fff, -28px 0 0 var(--blue); transform: skewX(-12deg);
+  background: var(--red); box-shadow: -14px 0 0 #fff, -28px 0 0 var(--ac); transform: skewX(-12deg);
 }
 .screen.active #topic-band { animation: bandin .7s var(--ease) backwards; }
 #topic-bigcode {
@@ -222,20 +228,31 @@ body.debug #img-note { display: block; }
   font-family: var(--head); font-weight: normal; letter-spacing: 1px; text-align: left;
   padding: 6px 18px; background: var(--red); color: #fff; font-size: .9em;
 }
-.tabela td { padding: 8px 18px; background: rgba(30,167,232,.18); }
-.tabela td:first-child { border-left: 6px solid var(--blue); font-weight: 700; color: #5cc8ff; }
+.tabela td { padding: 8px 18px; background: color-mix(in srgb, var(--ac) 18%, transparent); }
+.tabela td:first-child { border-left: 6px solid var(--ac); font-weight: 700; color: var(--ac-light); }
 
 /* conclusão: um bloco de texto só, no mesmo estilo das páginas */
 #end-body {
   position: absolute; left: 44px; top: 168px; width: 880px; padding: 14px 20px 2px 24px;
   font-size: 32px; font-weight: 600; line-height: 1.3;
-  background: linear-gradient(90deg, rgba(30,167,232,.22), rgba(0,0,0,0)); border-left: 6px solid var(--red);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--ac) 22%, transparent), rgba(0,0,0,0)); border-left: 6px solid var(--red);
 }
 #end-body p { margin-bottom: 16px; }
-#end-body strong { color: #5cc8ff; font-weight: 700; }
+#end-body strong { color: var(--ac-light); font-weight: 700; }
 .screen.active #end-body { animation: fadeup .6s .25s backwards var(--ease); }
 
 /* várias fotos no oval: uma em cima da outra */
 #scene.multi { flex-direction: column; align-items: stretch; justify-content: stretch; animation: none; }
 #scene .pic { flex: 1; background-size: cover; background-position: center; }
 #scene .pic + .pic { border-top: 5px solid var(--red); }
+
+/* cores por tópico: Geografia = azul (padrão), Biologia = verde, Matemática = amarelo */
+[data-topic="BIO"] { --ac: #2fbf71; --ac-light: #8be8b3; --ac-deep: #0b6b3a; }
+[data-topic="MAT"] { --ac: #f2b705; --ac-light: #ffd95e; --ac-deep: #8a6a00; }
+
+/* cursor some depois de alguns segundos parado */
+body.idle, body.idle * { cursor: none !important; }
+
+/* demo animado (pirâmide enchendo o prisma) */
+#scene.demo { animation: none; cursor: pointer; }
+#scene.demo svg { width: 100%; height: 100%; }
