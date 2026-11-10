@@ -8,7 +8,7 @@ const CONFIG = {
   info: "Equipe 5: Derick Brum, Luiz Menjão, João Pedro",
 
   // true = mostra a área secreta do nariz (caixa vermelha tracejada). Coloque false antes de apresentar.
-  debug: true,
+  debug: false,
 
   // Tema inicial: "padrao", "suave", "neon", "sunset" ou "floresta". Durante a apresentação, a tecla T troca.
   theme: "suave",
